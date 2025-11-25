@@ -46,6 +46,22 @@ route.get('/', async (req, resp) => {
 });
 
 // ============================
+// READ BY ID
+// ============================
+route.get('/:id', async (req, resp) => {
+    try {
+        const usuario = await Usuario.findById(req.params.id);
+        if (!usuario) {
+            return resp.status(404).json({ mensaje: "Usuario no encontrado" });
+        }
+        resp.status(200).json(usuario);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
+    }
+});
+
+
+// ============================
 // UPDATE
 // ============================
 route.put('/:id', async (req, resp) => {
