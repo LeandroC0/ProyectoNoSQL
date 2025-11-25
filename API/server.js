@@ -10,7 +10,7 @@ const cors = require('cors');//URL y https
 //const rutas
 const mascotasRoutes = require('./routes/mascotasRoutes');
 const registrosRoutes = require('./routes/registrosRoutes');
-const reseñasRoutes = require('./routes/reseñasRoutes');
+//const reseñasRoutes = require('./routes/reseñasRoutes');
 const tipomascotaRoutes = require('./routes/tipomascotaRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const vacunasRoutes = require('./routes/vacunasRoutes');
@@ -35,7 +35,7 @@ mongoose.connect('mongodb://localhost:27017/PetMatchDB')
 //las rutas
 app.use('/api/mascotas', mascotasRoutes);
 app.use('/api/registros', registrosRoutes);
-app.use('/api/resenas', reseñasRoutes);
+//app.use('/api/resenas', reseñasRoutes);
 app.use('/api/tipomascota', tipomascotaRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/vacunas', vacunasRoutes);

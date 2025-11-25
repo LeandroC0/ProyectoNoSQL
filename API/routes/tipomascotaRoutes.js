@@ -35,6 +35,23 @@ route.get('/', async (req, resp) => {
     }
 });
 
+
+route.get('/:id', async (req, resp) => {
+    try {
+        const tipo = await TipoMascota.findById(req.params.id);
+
+        if (!tipo) {
+            return resp.status(404).json({ mensaje: "Tipo de mascota no encontrado" });
+        }
+
+        resp.status(200).json(tipo);
+
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
+    }
+});
+
+
 // ============================
 // UPDATE
 // ============================
