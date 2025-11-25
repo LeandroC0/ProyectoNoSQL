@@ -41,6 +41,21 @@ route.get('/', async (req, resp) => {
     }
 });
 
+route.get('/:id', async (req, resp) => {
+    try {
+        const vacuna = await Vacuna.findById(req.params.id);
+
+        if (!vacuna) {
+            return resp.status(404).json({ mensaje: "Vacuna no encontrada" });
+        }
+
+        resp.status(200).json(vacuna);
+
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
+    }
+});
+
 // ============================
 // UPDATE
 // ============================
