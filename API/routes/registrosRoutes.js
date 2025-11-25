@@ -37,6 +37,20 @@ route.get('/', async (req, resp) => {
     }
 });
 
+route.get('/:id', async (req, resp) => {
+    try {
+        const registro = await Registro.findById(req.params.id);
+
+        if (!registro) {
+            return resp.status(404).json({ mensaje: "Registro no encontrado" });
+        }
+
+        resp.status(200).json(registro);
+
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
+    }
+});
 // ============================
 // UPDATE
 // ============================
