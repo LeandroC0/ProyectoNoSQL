@@ -44,7 +44,20 @@ route.get('/', async (req, resp) => {
         resp.status(500).json({ mensaje: error.message });
     }
 });
+route.get('/:id', async (req, resp) => {
+    try {
+        const reseña = await Reseña.findById(req.params.id);
 
+        if (!reseña) {
+            return resp.status(404).json({ mensaje: "Reseña no encontrada" });
+        }
+
+        resp.status(200).json(reseña);
+
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
+    }
+});
 // ============================
 // UPDATE
 // ============================
