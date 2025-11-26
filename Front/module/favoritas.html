@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Favoritas</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container mt-4">
+
+        <h1 class="text-center">Favoritas</h1>
+
+        <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalFavoritas">
+            Crear Favorito
+        </button>
+
+        <!-- MODAL -->
+        <div class="modal fade" id="modalFavoritas" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nuevo Favorito</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="tipoFormulario">
+
+                            <div class="mb-3">
+                                <label class="form-label">ID Favorito:</label>
+                                <input type="text" class="form-control" id="idFavorito" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Usuario:</label>
+                                <input type="text" class="form-control" id="usuarioFavorito" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mascota:</label>
+                                <textarea class="form-control" id="mascotaFavorito" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Fecha:</label>
+                                <textarea class="form-control" id="fechaGuardado" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-danger">Limpiar</button>
+
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA -->
+        <div class="table-responsive mt-4">
+            <table class="table table-striped table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Mascota</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaFavoritas"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/favoritas.js"></script>
+</body>
+</html>
