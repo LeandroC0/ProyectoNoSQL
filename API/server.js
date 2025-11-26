@@ -14,7 +14,12 @@ const reseñasRoutes = require('./routes/reseñasRoutes');
 const tipomascotaRoutes = require('./routes/tipomascotaRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const vacunasRoutes = require('./routes/vacunasRoutes');
-
+const favoritasRoutes = require('./routes/favoritasRoutes');
+const fotosmascotaRoutes = require('./routes/fotosmascotaRoutes');
+const notificacionesRoutes = require('./routes/notificacionesRoutes');
+const partemedicoRoutes = require('./routes/partemedicoRoutes');
+const peticionesRoutes = require('./routes/peticionadopcionRoutes');
+const reportesRoutes = require('./routes/reportesRoutes');
 
 
 const app = express();
@@ -39,6 +44,12 @@ app.use('/api/resenas', reseñasRoutes);
 app.use('/api/tipomascota', tipomascotaRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/vacunas', vacunasRoutes);
+app.use('/api/favoritas', favoritasRoutes)
+app.use('/api/fotosmascota', fotosmascotaRoutes)
+app.use('/api/notificaiones', notificacionesRoutes)
+app.use('/api/partemedico', partemedicoRoutes)
+app.use('/api/peticionadopcion', peticionesRoutes)
+app.use('/api/reportes', reportesRoutes)
 
 
 
