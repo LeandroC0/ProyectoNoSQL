@@ -18,11 +18,11 @@ async function cargarDatosFavoritas() {
         const res = await fetch(APIURL_FAVOR);
         if (!res.ok) throw new Error(`Error al cargar favoritas: ${res.status}`);
 
-        const tipos = await res.json();
+        const favor = await res.json();
         const tbody = document.getElementById("tablaFavoritas");
         tbody.innerHTML = "";
 
-        tipos.forEach(f => {
+        favor.forEach(f => {
             tbody.innerHTML += `
                 <tr>
                     <td>${f.idFavorito || ""}</td>
@@ -30,8 +30,8 @@ async function cargarDatosFavoritas() {
                     <td>${f.mascota || ""}</td>
                     <td>${f.fechaGuardado || ""}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editarTipo('${f._id}')">Editar</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarTipo('${f._id}')">Eliminar</button>
+                        <button class="btn btn-warning btn-sm" onclick="editarFavorito('${f._id}')">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarFavorito('${f._id}')">Eliminar</button>
                     </td>
                 </tr>
             `;
@@ -124,7 +124,7 @@ async function editarFavoritas(_id) {
 
     } catch (err) {
         console.error("Error al obtener tipo por ID:", err);
-        alert("No se pudo obtener el tipo de mascota. Revisa la consola / network.");
+        alert("No se pudo obtener el favorito. Revisa la consola / network.");
     }
 }
 
