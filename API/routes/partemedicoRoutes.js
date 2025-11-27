@@ -1,70 +1,116 @@
 const express = require('express');
-const router = express.Router();
+const route = express.Router();
+
 const ParteMedico = require('../models/partemedico');
 
-router.get('/', async (req, res) => {
+// ============================
+// CREATE
+// ============================
+route.post('/', async (req, resp) => {
+    const { 
+        idHistorial,
+        mascota,
+        fecha,
+        veterinario,
+        diagnostico,
+        tratamiento,
+        proximaCita
+    } = req.body;
+
+    const nuevoParte = new ParteMedico({
+        idHistorial,
+        mascota,
+        fecha,
+        veterinario,
+        diagnostico,
+        tratamiento,
+        proximaCita
+    });
+
     try {
-        res.json(await ParteMedico.find());
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const guardado = await nuevoParte.save();
+        resp.status(201).json(guardado);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-router.post('/', async (req, res) => {
+
+// ============================
+// READ - ALL
+// ============================
+route.get('/', async (req, resp) => {
     try {
-        const nuevo = new ParteMedico(req.body);
-        await nuevo.save();
-        res.json(nuevo);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+        const lista = await ParteMedico.find();
+        resp.status(200).json(lista);
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        res.json(await ParteMedico.findOne({ idHistorial: req.params.id }));
-    } catch {
-        res.status(404).json({ error: 'No encontrado' });
-    }
-});
-//añadiendo un get por id para que funcione el edit
-router.get('/:id', async (req, resp) => {
-    try {
-        const partemedico = await ParteMedico.findById(req.params.id);
 
-        if (!partemedico) {
-            return resp.status(404).json({ mensaje: "Parte medico no encontrado" });
+// ============================
+// READ - BY ID
+// ============================
+route.get('/:id', async (req, resp) => {
+    try {
+        const historial = await ParteMedico.findOne({
+            idHistorial: req.params.id
+        });
+
+        if (!historial) {
+            return resp.status(404).json({ mensaje: "Parte médico no encontrado" });
         }
 
-        resp.status(200).json(partemedico);
+        resp.status(200).json(historial);
 
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
 });
-//fin del anadido
 
-router.put('/:id', async (req, res) => {
+
+// ============================
+// UPDATE
+// ============================
+route.put('/:id', async (req, resp) => {
     try {
-        res.json(
-            await ParteMedico.findOneAndUpdate(
-                { idHistorial: req.params.id },
-                req.body,
-                { new: true }
-            )
+        const actualizado = await ParteMedico.findOneAndUpdate(
+            { idHistorial: req.params.id },
+            req.body,
+            { new: true }
         );
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+
+        if (!actualizado) {
+            return resp.status(404).json({ mensaje: "Parte médico no encontrado" });
+        }
+
+        resp.status(200).json(actualizado);
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-router.delete('/:id', async (req, res) => {
+
+// ============================
+// DELETE
+// ============================
+route.delete('/:id', async (req, resp) => {
     try {
-        await ParteMedico.findOneAndDelete({ idHistorial: req.params.id });
-        res.json({ message: 'Eliminado' });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const eliminado = await ParteMedico.findOneAndDelete({
+            idHistorial: req.params.id
+        });
+
+        if (!eliminado) {
+            return resp.status(404).json({ mensaje: "Parte médico no encontrado" });
+        }
+
+        resp.status(200).json({ mensaje: "Parte médico eliminado correctamente" });
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-module.exports = router;
+module.exports = route;

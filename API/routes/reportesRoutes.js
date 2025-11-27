@@ -1,70 +1,120 @@
 const express = require('express');
-const router = express.Router();
+const route = express.Router();
+
 const Reporte = require('../models/reportes');
 
-router.get('/', async (req, res) => {
+// ============================
+// CREATE
+// ============================
+route.post('/', async (req, resp) => {
+    const {
+        idReporte,
+        usuarioReporta,
+        usuarioDenunciado,
+        mascota,
+        tipo,
+        descripcion,
+        evidenciaUrl,
+        estado,
+        fecha
+    } = req.body;
+
+    const nuevoReporte = new Reporte({
+        idReporte,
+        usuarioReporta,
+        usuarioDenunciado,
+        mascota,
+        tipo,
+        descripcion,
+        evidenciaUrl,
+        estado,
+        fecha
+    });
+
     try {
-        res.json(await Reporte.find());
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const guardado = await nuevoReporte.save();
+        resp.status(201).json(guardado);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-router.post('/', async (req, res) => {
+
+// ============================
+// READ - ALL
+// ============================
+route.get('/', async (req, resp) => {
     try {
-        const nuevo = new Reporte(req.body);
-        await nuevo.save();
-        res.json(nuevo);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+        const reportes = await Reporte.find();
+        resp.status(200).json(reportes);
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        res.json(await Reporte.findOne({ idReporte: req.params.id }));
-    } catch {
-        res.status(404).json({ error: 'No encontrado' });
-    }
-});
-//añadiendo un get por id para que funcione el edit
-router.get('/:id', async (req, resp) => {
-    try {
-        const reportes = await Reporte.findById(req.params.id);
 
-        if (!reportes) {
+// ============================
+// READ - BY ID
+// ============================
+route.get('/:id', async (req, resp) => {
+    try {
+        const reporte = await Reporte.findOne({
+            idReporte: req.params.id
+        });
+
+        if (!reporte) {
             return resp.status(404).json({ mensaje: "Reporte no encontrado" });
         }
 
-        resp.status(200).json(reportes);
+        resp.status(200).json(reporte);
 
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
 });
-//fin del anadido
 
-router.put('/:id', async (req, res) => {
+
+// ============================
+// UPDATE
+// ============================
+route.put('/:id', async (req, resp) => {
     try {
-        res.json(
-            await Reporte.findOneAndUpdate(
-                { idReporte: req.params.id },
-                req.body,
-                { new: true }
-            )
+        const reporteActualizado = await Reporte.findOneAndUpdate(
+            { idReporte: req.params.id },
+            req.body,
+            { new: true }
         );
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+
+        if (!reporteActualizado) {
+            return resp.status(404).json({ mensaje: "Reporte no encontrado" });
+        }
+
+        resp.status(200).json(reporteActualizado);
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-router.delete('/:id', async (req, res) => {
+
+// ============================
+// DELETE
+// ============================
+route.delete('/:id', async (req, resp) => {
     try {
-        await Reporte.findOneAndDelete({ idReporte: req.params.id });
-        res.json({ message: 'Eliminado' });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const eliminado = await Reporte.findOneAndDelete({
+            idReporte: req.params.id
+        });
+
+        if (!eliminado) {
+            return resp.status(404).json({ mensaje: "Reporte no encontrado" });
+        }
+
+        resp.status(200).json({ mensaje: "Reporte eliminado correctamente" });
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-module.exports = router;
+module.exports = route;

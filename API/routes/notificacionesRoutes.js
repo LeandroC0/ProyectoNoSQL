@@ -1,70 +1,112 @@
 const express = require('express');
-const router = express.Router();
+const route = express.Router();
+
 const Notificacion = require('../models/notificaciones');
 
-router.get('/', async (req, res) => {
+// ============================
+// CREATE
+// ============================
+route.post('/', async (req, resp) => {
+    const { 
+        idNotificacion,
+        usuario,
+        mensaje,
+        tipo,
+        leida,
+        fecha
+    } = req.body;
+
+    const nuevaNotificacion = new Notificacion({
+        idNotificacion,
+        usuario,
+        mensaje,
+        tipo,
+        leida,
+        fecha
+    });
+
     try {
-        res.json(await Notificacion.find());
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const guardada = await nuevaNotificacion.save();
+        resp.status(201).json(guardada);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-router.post('/', async (req, res) => {
+
+// ============================
+// READ - ALL
+// ============================
+route.get('/', async (req, resp) => {
     try {
-        const nueva = new Notificacion(req.body);
-        await nueva.save();
-        res.json(nueva);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+        const notificaciones = await Notificacion.find();
+        resp.status(200).json(notificaciones);
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        res.json(await Notificacion.findOne({ idNotificacion: req.params.id }));
-    } catch {
-        res.status(404).json({ error: 'No encontrado' });
-    }
-});
-//añadiendo un get por id para que funcione el edit
-router.get('/:id', async (req, resp) => {
-    try {
-        const notificaciones = await Notificacion.findById(req.params.id);
 
-        if (!notificaciones) {
-            return resp.status(404).json({ mensaje: "Notificacion no encontrada" });
+// ============================
+// READ - BY ID
+// ============================
+route.get('/:id', async (req, resp) => {
+    try {
+        const notificacion = await Notificacion.findOne({ idNotificacion: req.params.id });
+
+        if (!notificacion) {
+            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
         }
 
-        resp.status(200).json(notificaciones);
+        resp.status(200).json(notificacion);
 
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
 });
-//fin del anadido
 
-router.put('/:id', async (req, res) => {
+
+// ============================
+// UPDATE
+// ============================
+route.put('/:id', async (req, resp) => {
     try {
-        res.json(
-            await Notificacion.findOneAndUpdate(
-                { idNotificacion: req.params.id },
-                req.body,
-                { new: true }
-            )
+        const notificacionActualizada = await Notificacion.findOneAndUpdate(
+            { idNotificacion: req.params.id },
+            req.body,
+            { new: true }
         );
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+
+        if (!notificacionActualizada) {
+            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
+        }
+
+        resp.status(200).json(notificacionActualizada);
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-router.delete('/:id', async (req, res) => {
+
+// ============================
+// DELETE
+// ============================
+route.delete('/:id', async (req, resp) => {
     try {
-        await Notificacion.findOneAndDelete({ idNotificacion: req.params.id });
-        res.json({ message: 'Eliminado' });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const eliminada = await Notificacion.findOneAndDelete({
+            idNotificacion: req.params.id
+        });
+
+        if (!eliminada) {
+            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
+        }
+
+        resp.status(200).json({ mensaje: "Notificación eliminada correctamente" });
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-module.exports = router;
+module.exports = route;
