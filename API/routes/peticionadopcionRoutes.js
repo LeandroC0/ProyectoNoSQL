@@ -32,7 +32,22 @@ router.get('/:id', async (req, res) => {
         res.status(404).json({ error: 'No encontrada' });
     }
 });
+//añadiendo un get por id para que funcione el edit
+router.get('/:id', async (req, resp) => {
+    try {
+        const peticionadopcion = await PeticionAdopcion.findById(req.params.id);
 
+        if (!peticionadopcion) {
+            return resp.status(404).json({ mensaje: "Peticion de adopcion no encontrado" });
+        }
+
+        resp.status(200).json(peticionadopcion);
+
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
+    }
+});
+//fin del anadido
 // Actualizar una petición
 router.put('/:id', async (req, res) => {
     try {

@@ -28,6 +28,23 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+//añadiendo un get por id para que funcione el edit
+router.get('/:id', async (req, resp) => {
+    try {
+        const favorita = await Favorita.findById(req.params.id);
+
+        if (!favorita) {
+            return resp.status(404).json({ mensaje: "Favorita no encontrada" });
+        }
+
+        resp.status(200).json(favorita);
+
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
+    }
+});
+//fin del anadido
+
 router.put('/:id', async (req, res) => {
     try {
         res.json(await Favorita.findOneAndUpdate(
