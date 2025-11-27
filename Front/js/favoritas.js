@@ -1,4 +1,3 @@
-// favoritas.js
 const APIURL_FAVOR = "http://localhost:7000/api/favoritas/";
 
 let idEditando = null;
@@ -6,19 +5,21 @@ const modalElement = document.getElementById("modalFavoritas");
 const modal = new bootstrap.Modal(modalElement);
 
 // Permitir uso global de funciones
-window.editarFavoritas = editarFavoritas;
-window.eliminarFavoritas = eliminarFavoritas;
-
+window.editarFavorito = editarFavorito;
+window.eliminarFavorito = eliminarFavorito;
 
 // ===============================
 // CARGAR DATOS
 // ===============================
 async function cargarDatosFavoritas() {
     try {
+        console.log("Cargando datos...");
         const res = await fetch(APIURL_FAVOR);
         if (!res.ok) throw new Error(`Error al cargar favoritas: ${res.status}`);
 
         const favor = await res.json();
+        console.log("Datos recibidos:", favor);
+        
         const tbody = document.getElementById("tablaFavoritas");
         tbody.innerHTML = "";
 
@@ -38,50 +39,47 @@ async function cargarDatosFavoritas() {
         });
 
     } catch (err) {
-        console.error(err);
+        console.error("Error cargando favoritas:", err);
         alert("Error cargando favoritas.");
     }
 }
 
-
 // ===============================
 // GUARDAR O EDITAR
 // ===============================
-document.getElementById("tipoFormulario").addEventListener("submit", async e => {
+document.getElementById("favoritasFormulario").addEventListener("submit", async e => {
     e.preventDefault();
 
     const datos = {
         idFavorito: document.getElementById("idFavorito").value,
-        usuario: document.getElementById("usuario").value,
-        mascota: document.getElementById("mascota").value,
+        usuario: document.getElementById("usuarioFavorito").value,
+        mascota: document.getElementById("mascotaFavorito").value,
         fechaGuardado: document.getElementById("fechaGuardado").value
     };
 
     try {
         if (!idEditando) {
-            // Crear nuevo tipo
+            // Crear nuevo favorito
             const res = await fetch(APIURL_FAVOR, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datos)
             });
-            if (!res.ok) throw new Error("Error al crear favoritas");
+            if (!res.ok) throw new Error("Error al crear favorito");
         } else {
-            // Actualizar favoritas existentes
+            // Actualizar favorito existente
             const res = await fetch(APIURL_FAVOR + idEditando, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datos)
             });
-            if (!res.ok) throw new Error("Error al actualizar favoritas");
-
+            if (!res.ok) throw new Error("Error al actualizar favorito");
             idEditando = null;
-            document.querySelector(".modal-title").textContent = "Nuevo Favorito";
         }
 
         e.target.reset();
         modal.hide();
-        cargarDatosTipo();
+        cargarDatosFavoritas(); // <- CORREGIDO
 
     } catch (error) {
         console.error(error);
@@ -89,61 +87,46 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
     }
 });
 
-
 // ===============================
 // EDITAR
 // ===============================
-// ===============================
-// EDITAR
-// ===============================
-async function editarFavoritas(_id) {
+async function editarFavorito(_id) {
     console.log("ID recibido desde botón:", _id);
 
     try {
         const res = await fetch(`http://localhost:7000/api/favoritas/${_id}`);
-
-        if (!res.ok) {
-            throw new Error(`GET por ID falló: ${res.status} ${res.statusText}`);
-        }
+        if (!res.ok) throw new Error(`GET por ID falló: ${res.status}`);
 
         const f = await res.json();
+        idEditando = _id;
 
-        idEditando = _id; // Guarda el ID para usarlo luego en actualizar
-
-        // CORREGIR: Usar los mismos IDs que están en el HTML
         document.getElementById("idFavorito").value = f.idFavorito || "";
-        document.getElementById("usuarioFavorito").value = f.usuario || ""; // Cambiado de "usuario" a "usuarioFavorito"
-        document.getElementById("mascotaFavorito").value = f.mascota || ""; // Cambiado de "mascota" a "mascotaFavorito"
+        document.getElementById("usuarioFavorito").value = f.usuario || "";
+        document.getElementById("mascotaFavorito").value = f.mascota || "";
         document.getElementById("fechaGuardado").value = f.fechaGuardado || "";
 
-        // Cambiar título del modal
-        document.querySelector(".modal-title").textContent = "Editar Favoritos";
-
-        // Abrir modal
+        document.querySelector(".modal-title").textContent = "Editar Favorito";
         modal.show();
 
     } catch (err) {
-        console.error("Error al obtener tipo por ID:", err);
-        alert("No se pudo obtener el favorito. Revisa la consola / network.");
+        console.error("Error al obtener favorito por ID:", err);
+        alert("No se pudo obtener el favorito.");
     }
 }
-
 
 // ===============================
 // ELIMINAR
 // ===============================
-async function eliminarFavoritas(id) {
+async function eliminarFavorito(id) {
     if (!confirm("¿Seguro que deseas eliminar este favorito?")) return;
 
     try {
         const res = await fetch(APIURL_FAVOR + id, { method: "DELETE" });
         if (!res.ok) throw new Error("Error al eliminar");
-
         cargarDatosFavoritas();
-
     } catch (err) {
         console.error(err);
-        alert("Error al eliminar tipo.");
+        alert("Error al eliminar favorito.");
     }
 }
 
