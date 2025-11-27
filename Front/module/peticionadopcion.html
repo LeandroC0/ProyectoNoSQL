@@ -50,24 +50,29 @@
                                 <textarea class="form-control" id="refugio" required></textarea>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Estado:</label>
-                                <textarea class="form-control" id="estado" required></textarea>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Fecha Peticion:</label>
-                                <textarea class="form-control" id="fechaPeticion" required></textarea>
-                            </div>
+                            <div class="col-md-6 mb-3">
+                                    <label class="form-label">Estado:</label>
+                                    <select class="form-control" id="estado" required>
+                                        <option value="">Seleccionar...</option>
+                                        <option value="Pendiente">Pendiente</option>
+                                        <option value="Aprobada">Aprobada</option>
+                                        <option value="Rechazada">Rechazada</option>
+                                    </select>
+                                </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Fecha Respuesta:</label>
-                                <textarea class="form-control" id="fechaRespuesta" required></textarea>
-                            </div>
+                            <div class="col-md-6 mb-3">
+                                    <label class="form-label">Fecha Peticion:</label>
+                                    <input type="date" class="form-control" id="fechaPeticion" required>
+                                </div>
+     
+                            <div class="col-md-6 mb-3">
+                                    <label class="form-label">Fecha Respuesta:</label>
+                                    <input type="date" class="form-control" id="fechaRespuesta" required>
+                                </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Notas del Refugio:</label>
-                                <textarea class="form-control" id="notasRefugio" required></textarea>
+                                <textarea class="form-control" id="notasRefugio" rows="3" required></textarea>
                             </div>
 
                             
