@@ -27,6 +27,7 @@ async function cargarDatosPeticionAdopcion() {
                 <tr>
                     <td>${p.idPeticion || ""}</td>
                     <td>${p.usuario || ""}</td>
+                    <td>${p.mascota || ""}</td>
                     <td>${p.refugio || ""}</td>
                     <td>${p.estado || ""}</td>
                     <td>${p.fechaPeticion || ""}</td>
