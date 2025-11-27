@@ -33,8 +33,8 @@ async function cargarDatosPeticionAdopcion() {
                     <td>${p.fechaRespuesta || ""}</td>
                     <td>${p.notasRefugio || ""}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editarPeticionAdopcion('${f._id}')">Editar</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarPeticionAdopcion('${f._id}')">Eliminar</button>
+                        <button class="btn btn-warning btn-sm" onclick="editarPeticionAdopcion('${p._id}')">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarPeticionAdopcion('${p._id}')">Eliminar</button>
                     </td>
                 </tr>
             `;

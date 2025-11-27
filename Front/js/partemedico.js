@@ -33,8 +33,8 @@ async function cargarDatosParteMedico() {
                     <td>${p.tratamiento || ""}</td>
                     <td>${p.proximaCita || ""}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editarParteMedico('${f._id}')">Editar</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarParteMedico('${f._id}')">Eliminar</button>
+                        <button class="btn btn-warning btn-sm" onclick="editarParteMedico('${p._id}')">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarParteMedico('${p._id}')">Eliminar</button>
                     </td>
                 </tr>
             `;
