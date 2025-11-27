@@ -1,19 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
     <title>Favoritas</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/estilo.css" rel="stylesheet" />
 </head>
 <body>
 
     <div class="container mt-4">
+        <!-- Botón de regreso -->
+        <button class="btn btn-back" onclick="goBack()">
+            <span>←</span> Volver al Inicio
+        </button>
 
-        <h1 class="text-center">Favoritas</h1>
+        <div class="header">
+            <h1>⭐ Favoritas</h1>
+            <p>Mascotas marcadas como favoritas por los usuarios</p>
+        </div>
 
-        <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalFavoritas">
+        <button class="btn btn-primary btn-lg mb-4" data-bs-toggle="modal" data-bs-target="#modalFavoritas">
             Crear Favorito
         </button>
 
@@ -28,8 +35,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <form id="tipoFormulario">
-
+                        <form id="favoritasFormulario">
                             <div class="mb-3">
                                 <label class="form-label">ID Favorito:</label>
                                 <input type="text" class="form-control" id="idFavorito" required>
@@ -42,10 +48,10 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Mascota:</label>
-                                <textarea class="form-control" id="mascotaFavorito" required></textarea>
+                                <input type="text" class="form-control" id="mascotaFavorito" required>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="mb-3">
                                 <label class="form-label">Fecha:</label>
                                 <input type="date" class="form-control" id="fechaGuardado" required>
                             </div>
@@ -65,24 +71,33 @@
         </div>
 
         <!-- TABLA -->
-        <div class="table-responsive mt-4">
-            <table class="table table-striped table-bordered">
-                <thead class="table-primary">
-                    <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Mascota</th>
-                        <th>Fecha</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaFavoritas"></tbody>
-            </table>
+        <div class="table-container mt-4">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Mascota</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaFavoritas">
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = '../index.html';
+        }
+    </script>
     <script src="../js/favoritas.js"></script>
 </body>
 </html>

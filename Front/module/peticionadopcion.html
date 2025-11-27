@@ -1,56 +1,67 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
-    <title>Peticion Adopcion</title>
+    <title>Petición Adopción</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/estilo.css" rel="stylesheet" />
 </head>
 <body>
 
     <div class="container mt-4">
+        <!-- Botón de regreso -->
+        <button class="btn btn-back" onclick="goBack()">
+            <span>←</span> Volver al Inicio
+        </button>
 
-        <h1 class="text-center">Peticion Adopcion</h1>
+        <div class="header">
+            <h1>📋 Petición de Adopción</h1>
+            <p>Gestiona las solicitudes de adopción de mascotas</p>
+        </div>
 
-        <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalPeticionAdopcion">
-            Crear Peticion Adopcion
+        <button class="btn btn-primary btn-lg mb-4" data-bs-toggle="modal" data-bs-target="#modalPeticionAdopcion">
+            Crear Petición de Adopción
         </button>
 
         <!-- MODAL -->
         <div class="modal fade" id="modalPeticionAdopcion" tabindex="-1">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title">Nueva Peticion de Adopcion</h5>
+                        <h5 class="modal-title">Nueva Petición de Adopción</h5>
                         <button class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body">
-                        <form id="tipoFormulario">
+                        <form id="peticionAdopcionFormulario">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">ID Petición:</label>
+                                    <input type="text" class="form-control" id="idPeticion" required>
+                                </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">ID Peticion:</label>
-                                <input type="text" class="form-control" id="idPeticion" required>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Usuario:</label>
+                                    <input type="text" class="form-control" id="usuario" required>
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Usuario:</label>
-                                <input type="text" class="form-control" id="usuario" required>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Mascota:</label>
+                                    <input type="text" class="form-control" id="mascota" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Refugio:</label>
+                                    <input type="text" class="form-control" id="refugio" required>
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Mascota:</label>
-                                <input type="text" class="form-control" id="mascota" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Refugio:</label>
-                                <textarea class="form-control" id="refugio" required></textarea>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Estado:</label>
                                     <select class="form-control" id="estado" required>
                                         <option value="">Seleccionar...</option>
@@ -60,21 +71,23 @@
                                     </select>
                                 </div>
 
-                            <div class="col-md-6 mb-3">
-                                    <label class="form-label">Fecha Peticion:</label>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Fecha Petición:</label>
                                     <input type="date" class="form-control" id="fechaPeticion" required>
                                 </div>
-     
-                            <div class="col-md-6 mb-3">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Fecha Respuesta:</label>
                                     <input type="date" class="form-control" id="fechaRespuesta" required>
                                 </div>
+                            </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Notas del Refugio:</label>
                                 <textarea class="form-control" id="notasRefugio" rows="3" required></textarea>
                             </div>
-
                             
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             <button type="reset" class="btn btn-danger">Limpiar</button>
@@ -91,28 +104,37 @@
         </div>
 
         <!-- TABLA -->
-        <div class="table-responsive mt-4">
-            <table class="table table-striped table-bordered">
-                <thead class="table-primary">
-                    <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Mascota</th>
-                        <th>Refugio</th>
-                        <th>Estado</th>
-                        <th>Fecha Peticion</th>
-                        <th>Fecha Respuesta</th>
-                        <th>Notas del Refugio</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaParteMedico"></tbody>
-            </table>
+        <div class="table-container mt-4">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Mascota</th>
+                            <th>Refugio</th>
+                            <th>Estado</th>
+                            <th>Fecha Petición</th>
+                            <th>Fecha Respuesta</th>
+                            <th>Notas del Refugio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaPeticionAdopcion">
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = '../index.html';
+        }
+    </script>
     <script src="../js/peticionadopcion.js"></script>
 </body>
 </html>
