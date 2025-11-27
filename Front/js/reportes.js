@@ -1,11 +1,11 @@
-// reportes.js
+
 const APIURL_REPORTES = "http://localhost:7000/api/reportes/";
 
 let idEditando = null;
 const modalElement = document.getElementById("modalReportes");
 const modal = new bootstrar.Modal(modalElement);
 
-// Permitir uso global de funciones
+
 window.editarReportes = editarReportes;
 window.eliminarReportes = eliminarReportes;
 
@@ -106,9 +106,7 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
 // ===============================
 // EDITAR
 // ===============================
-// ===============================
-// EDITAR
-// ===============================
+
 async function editarReportes(_id) {
     console.log("ID recibido desde botón:", _id);
 
@@ -121,9 +119,8 @@ async function editarReportes(_id) {
 
         const p = await res.json();
 
-        idEditando = _id; // Guarda el ID para usarlo luego en actualizar
+        idEditando = _id; 
 
-        // CORREGIR: Usar los mismos IDs que están en el HTML
         document.getElementById("idReporte").value = r.idReporte || "";
         document.getElementById("usuarioReporta").value = r.usuarioReporta || ""; 
         document.getElementById("usuarioDenunciado").value = r.usuarioDenunciado || ""; 

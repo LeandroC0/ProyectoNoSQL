@@ -1,11 +1,10 @@
-// tipoMascota.js
+
 const APIURL_TIPO = "http://localhost:7000/api/tipomascota/";
 
 let idEditando = null;
 const modalElement = document.getElementById("modalTipoMascota");
 const modal = new bootstrap.Modal(modalElement);
 
-// Permitir uso global de funciones
 window.editarTipo = editarTipo;
 window.eliminarTipo = eliminarTipo;
 
@@ -91,9 +90,7 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
 // ===============================
 // EDITAR
 // ===============================
-// ===============================
-// EDITAR
-// ===============================
+
 async function editarTipo(_id) {
     console.log("ID recibido desde botón:", _id);
 
@@ -106,17 +103,17 @@ async function editarTipo(_id) {
 
         const t = await res.json();
 
-        idEditando = _id; // Guarda el ID para usarlo luego en actualizar
+        idEditando = _id; 
 
-        // CORREGIR: Usar los mismos IDs que están en el HTML
+        
         document.getElementById("tipoMascotaId").value = t.tipoMascotaId || "";
-        document.getElementById("nombreTipo").value = t.nombre || ""; // Cambiado de "nombre" a "nombreTipo"
-        document.getElementById("descripcionTipo").value = t.descripcion || ""; // Cambiado de "descripcion" a "descripcionTipo"
+        document.getElementById("nombreTipo").value = t.nombre || ""; 
+        document.getElementById("descripcionTipo").value = t.descripcion || ""; 
 
-        // Cambiar título del modal
+       
         document.querySelector(".modal-title").textContent = "Editar Tipo de Mascota";
 
-        // Abrir modal
+    
         modal.show();
 
     } catch (err) {

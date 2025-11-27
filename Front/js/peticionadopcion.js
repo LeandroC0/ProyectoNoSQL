@@ -1,4 +1,4 @@
-// peticionadopcion.js
+
 const APIURL_PETICION = "http://localhost:7000/api/peticionadopcion/";
 
 let idEditando = null;
@@ -101,9 +101,7 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
 // ===============================
 // EDITAR
 // ===============================
-// ===============================
-// EDITAR
-// ===============================
+
 async function editarPeticionAdopcion(_id) {
     console.log("ID recibido desde botón:", _id);
 
@@ -116,9 +114,9 @@ async function editarPeticionAdopcion(_id) {
 
         const p = await res.json();
 
-        idEditando = _id; // Guarda el ID para usarlo luego en actualizar
+        idEditando = _id; 
 
-        // CORREGIR: Usar los mismos IDs que están en el HTML
+    
         document.getElementById("idPeticion").value = p.idPeticion || "";
         document.getElementById("usuario").value = p.usuario || ""; 
         document.getElementById("mascota").value = p.mascota || ""; 
@@ -128,10 +126,8 @@ async function editarPeticionAdopcion(_id) {
         document.getElementById("fechaRespuesta").value = p.fechaRespuesta || "";
         document.getElementById("notasRefugio").value = p.notasRefugio || "";
 
-        // Cambiar título del modal
         document.querySelector(".modal-title").textContent = "Editar peticion de adopcion";
 
-        // Abrir modal
         modal.show();
 
     } catch (err) {

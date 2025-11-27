@@ -98,9 +98,7 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
 // ===============================
 // EDITAR
 // ===============================
-// ===============================
-// EDITAR
-// ===============================
+
 async function editarNotificaciones(_id) {
     console.log("ID recibido desde botón:", _id);
 
@@ -113,21 +111,17 @@ async function editarNotificaciones(_id) {
 
         const p = await res.json();
 
-        idEditando = _id; // Guarda el ID para usarlo luego en actualizar
+        idEditando = _id; 
 
-        // CORREGIR: Usar los mismos IDs que están en el HTML
+        
         document.getElementById("idNotificacion").value = n.idNotificacion || "";
         document.getElementById("usuario").value = n.usuario || ""; 
         document.getElementById("mensaje").value = n.mensaje || ""; 
         document.getElementById("tipo").value = n.tipo || "";
         document.getElementById("leida").value = n.leida || "";
         document.getElementById("fecha").value = n.fecha || "";
-
-
-        // Cambiar título del modal
         document.querySelector(".modal-title").textContent = "Editar notificaciones";
 
-        // Abrir modal
         modal.show();
 
     } catch (err) {

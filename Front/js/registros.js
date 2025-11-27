@@ -4,7 +4,6 @@ let idEditando = null;
 const modalElement = document.getElementById("modalRegistro");
 const modal = new bootstrap.Modal(modalElement);
 
-// Permitir uso global de funciones
 window.editarRegistro = editarRegistro;
 window.eliminarRegistro = eliminarRegistro;
 
@@ -89,7 +88,7 @@ document.getElementById("registroFormulario").addEventListener("submit", async e
 });
 
 // ===============================
-// EDITAR (VERSIÓN SEGURA)
+// EDITAR
 // ===============================
 async function editarRegistro(idRegistro) {
     console.log("ID recibido desde botón:", idRegistro);
@@ -106,17 +105,16 @@ async function editarRegistro(idRegistro) {
 
         idEditando = idRegistro;
 
-        // Llenar los campos del formulario
+        
         document.getElementById("usuarioRegistro").value = registro.usuario || "";
         document.getElementById("accionRegistro").value = registro.accion || "";
         document.getElementById("mascotaRegistro").value = registro.mascota || "";
         document.getElementById("fechaRegistro").value = registro.fecha || "";
         document.getElementById("descripcionRegistro").value = registro.descripcion || "";
 
-        // Cambiar título del modal
         document.querySelector(".modal-title").textContent = "Editar Registro";
 
-        // Abrir modal
+      
         modal.show();
 
     } catch (err) {

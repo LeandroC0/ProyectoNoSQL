@@ -108,9 +108,9 @@ async function editarMascota(_id) {
 
         const m = await res.json();
 
-        idEditando = _id; // Guarda el ID para usarlo luego en actualizar
+        idEditando = _id; 
 
-        // Llenar los campos del formulario
+      
         document.getElementById("nombreMascota").value = m.nombre || "";
         document.getElementById("tipoMascotaId").value = m.tipoMascotaId || "";
         document.getElementById("razaMascota").value = m.raza || "";
@@ -120,10 +120,10 @@ async function editarMascota(_id) {
         document.getElementById("estadoMascota").value = m.estado || "";
         document.getElementById("refugioMascota").value = m.refugio || "";
 
-        // Cambiar título del modal
+        
         document.querySelector(".modal-title").textContent = "Editar Mascota";
 
-        // Abrir modal
+        
         modal.show();
 
     } catch (err) {

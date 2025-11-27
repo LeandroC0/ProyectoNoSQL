@@ -1,11 +1,11 @@
-// partemedico.js
+
 const APIURL_PARTE = "http://localhost:7000/api/partemedico/";
 
 let idEditando = null;
 const modalElement = document.getElementById("modalParteMedico");
 const modal = new bootstrap.Modal(modalElement);
 
-// Permitir uso global de funciones
+
 window.editarParteMedico = editarParteMedico;
 window.eliminarParteMedico = eliminarParteMedico;
 
@@ -98,9 +98,7 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
 // ===============================
 // EDITAR
 // ===============================
-// ===============================
-// EDITAR
-// ===============================
+
 async function editarParteMedico(_id) {
     console.log("ID recibido desde botón:", _id);
 
@@ -113,9 +111,9 @@ async function editarParteMedico(_id) {
 
         const p = await res.json();
 
-        idEditando = _id; // Guarda el ID para usarlo luego en actualizar
+        idEditando = _id; 
 
-        // CORREGIR: Usar los mismos IDs que están en el HTML
+       
         document.getElementById("idHistorial").value = p.idHistorial || "";
         document.getElementById("mascota").value = p.mascota || ""; 
         document.getElementById("fecha").value = p.fecha || ""; 

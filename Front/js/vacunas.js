@@ -4,7 +4,6 @@ let idEditando = null;
 const modalElement = document.getElementById("modalVacuna");
 const modal = new bootstrap.Modal(modalElement);
 
-// Permitir uso global de funciones
 window.editarVacuna = editarVacuna;
 window.eliminarVacuna = eliminarVacuna;
 
@@ -87,7 +86,7 @@ document.getElementById("vacunaFormulario").addEventListener("submit", async e =
 });
 
 // ===============================
-// EDITAR (CON CUIDADO - VERSIÓN SEGURA)
+// EDITAR 
 // ===============================
 async function editarVacuna(idVacuna) {
     console.log("ID recibido desde botón:", idVacuna);
@@ -104,16 +103,14 @@ async function editarVacuna(idVacuna) {
 
         idEditando = idVacuna;
 
-        // Llenar los campos del formulario
+
         document.getElementById("codigoVacuna").value = vacuna.codigo || "";
         document.getElementById("nombreVacuna").value = vacuna.nombre || "";
         document.getElementById("descripcionVacuna").value = vacuna.descripcion || "";
         document.getElementById("aplicableAVacuna").value = vacuna.aplicableA ? vacuna.aplicableA.join(', ') : "";
 
-        // Cambiar título del modal
         document.querySelector(".modal-title").textContent = "Editar Vacuna";
 
-        // Abrir modal
         modal.show();
 
     } catch (err) {

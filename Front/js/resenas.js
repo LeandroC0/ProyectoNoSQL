@@ -4,7 +4,7 @@ let idEditando = null;
 const modalElement = document.getElementById("modalResena");
 const modal = new bootstrap.Modal(modalElement);
 
-// Permitir uso global de funciones
+
 window.editarResena = editarResena;
 window.eliminarResena = eliminarResena;
 
@@ -21,7 +21,7 @@ async function cargarDatosResenas() {
         tbody.innerHTML = "";
 
         resenas.forEach(r => {
-            // Crear estrellas para la calificación
+            
             const estrellas = '★'.repeat(r.calificacion) + '☆'.repeat(5 - r.calificacion);
             
             tbody.innerHTML += `
@@ -113,7 +113,7 @@ async function editarResena(idResena) {
 
         idEditando = idResena;
 
-        // Llenar los campos del formulario
+
         document.getElementById("usuarioResena").value = resena.usuario || "";
         document.getElementById("mascotaResena").value = resena.mascota || "";
         document.getElementById("refugioResena").value = resena.refugio || "";
@@ -121,10 +121,10 @@ async function editarResena(idResena) {
         document.getElementById("comentarioResena").value = resena.comentario || "";
         document.getElementById("fechaResena").value = resena.fecha || "";
 
-        // Cambiar título del modal
+
         document.querySelector(".modal-title").textContent = "Editar Reseña";
 
-        // Abrir modal
+
         modal.show();
 
     } catch (err) {

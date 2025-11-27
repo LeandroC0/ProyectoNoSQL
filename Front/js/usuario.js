@@ -1,12 +1,11 @@
-// usuario.js
+
 const APIURL = "http://localhost:7000/api/usuarios/";
 
-// Asegurarnos de que Bootstrap ya está cargado (script tag en HTML lo carga antes)
+
 let idEditando = null;
 const modalElement = document.getElementById("modalUsuario");
 const modal = new bootstrap.Modal(modalElement);
 
-// Exportar funciones para que onclick las encuentre
 window.editarUsuario = editarUsuario;
 window.eliminarUsuario = eliminarUsuario;
 
@@ -23,7 +22,7 @@ async function cargarDatos() {
         tbody.innerHTML = "";
 
         usuarios.forEach(u => {
-            // Aseguramos que fechaRegistro sea una cadena
+        
             const fecha = u.fechaRegistro ? (u.fechaRegistro.substring ? u.fechaRegistro.substring(0,10) : String(u.fechaRegistro)) : "";
 
             tbody.innerHTML += `

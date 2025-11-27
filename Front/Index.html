@@ -99,70 +99,70 @@
         </div>
 
         <div class="grid">
-            <!-- Tarjeta de Usuarios -->
+            <!-- Usuarios -->
             <div class="card" onclick="navigateTo('usuario.html')">
                 <div class="icon">👥</div>
                 <h3>Usuarios</h3>
                 <p>Gestiona usuarios del sistema y sus permisos</p>
             </div>
 
-            <!-- Tarjeta de Mascotas -->
+            <!-- Mascotas -->
             <div class="card" onclick="navigateTo('mascotas.html')">
                 <div class="icon">🐶</div>
                 <h3>Mascotas</h3>
                 <p>Administra el registro de mascotas disponibles</p>
             </div>
 
-            <!-- Tarjeta de Fotos Mascota -->
+            <!-- Fotos Mascota -->
             <div class="card" onclick="navigateTo('fotosmascota.html')">
                 <div class="icon">📷</div>
                 <h3>Fotos de Mascotas</h3>
                 <p>Gestiona las imágenes de las mascotas</p>
             </div>
 
-            <!-- Tarjeta de Tipo Mascota -->
+            <!--Tipo Mascota -->
             <div class="card" onclick="navigateTo('tipomascota.html')">
                 <div class="icon">🏷️</div>
                 <h3>Tipos de Mascota</h3>
                 <p>Configura categorías y razas de mascotas</p>
             </div>
 
-            <!-- Tarjeta de Favoritas -->
+            <!--Favoritas -->
             <div class="card" onclick="navigateTo('favoritas.html')">
                 <div class="icon">⭐</div>
                 <h3>Favoritas</h3>
                 <p>Mascotas marcadas como favoritas por usuarios</p>
             </div>
 
-            <!-- Tarjeta de Partes Médicos -->
+            <!--Partes Médicos -->
             <div class="card" onclick="navigateTo('partemedico.html')">
                 <div class="icon">🏥</div>
                 <h3>Partes Médicos</h3>
                 <p>Registros médicos y historiales de salud</p>
             </div>
 
-            <!-- Tarjeta de Vacunas -->
+            <!--Vacunas -->
             <div class="card" onclick="navigateTo('vacunas.html')">
                 <div class="icon">💉</div>
                 <h3>Vacunas</h3>
                 <p>Control de vacunación y calendarios</p>
             </div>
 
-            <!-- Tarjeta de Peticiones de Adopción -->
+            <!--Peticiones de Adopción -->
             <div class="card" onclick="navigateTo('peticionadopcion.html')">
                 <div class="icon">📋</div>
                 <h3>Peticiones de Adopción</h3>
                 <p>Gestiona solicitudes de adopción</p>
             </div>
 
-            <!-- Tarjeta de Registros -->
+            <!-- Registros -->
             <div class="card" onclick="navigateTo('registros.html')">
                 <div class="icon">📊</div>
                 <h3>Registros</h3>
                 <p>Historial de actividades del sistema</p>
             </div>
 
-            <!-- Tarjeta de Reseñas -->
+            <!--Reseñas -->
             <div class="card" onclick="navigateTo('resenas.html')">
                 <div class="icon">📝</div>
                 <h3>Reseñas</h3>
@@ -176,9 +176,8 @@
             window.location.href = `module/${page}`;
         }
 
-        // También puedes agregar navegación con teclado
+
         document.addEventListener('keydown', function(event) {
-            // Ejemplo: tecla Escape para volver al inicio
             if (event.key === 'Escape') {
                 window.location.href = 'index.html';
             }

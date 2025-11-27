@@ -5,7 +5,7 @@ let idEditando = null;
 const modalElement = document.getElementById("modalFotoMascota");
 const modal = new bootstrap.Modal(modalElement);
 
-// Permitir uso global de funciones
+
 window.editarFotoMascota = editarFotoMascota;
 window.eliminarFotoMascota = eliminarFotoMascota;
 
@@ -95,9 +95,7 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
 // ===============================
 // EDITAR
 // ===============================
-// ===============================
-// EDITAR
-// ===============================
+
 async function editarFotoMascota(_id) {
     console.log("ID recibido desde botón:", _id);
 
@@ -110,19 +108,19 @@ async function editarFotoMascota(_id) {
 
         const f = await res.json();
 
-        idEditando = _id; // Guarda el ID para usarlo luego en actualizar
+        idEditando = _id; 
 
-        // CORREGIR: Usar los mismos IDs que están en el HTML
+        
         document.getElementById("idFoto").value = f.idFoto || "";
         document.getElementById("mascota").value = f.mascota || ""; 
         document.getElementById("url").value = f.url || ""; 
         document.getElementById("descripcionFoto").value = t.descripcion || "";
         document.getElementById("fechaSubida").value = f.fechaSubida || "";
 
-        // Cambiar título del modal
+       
         document.querySelector(".modal-title").textContent = "Editar fotos de mascota";
 
-        // Abrir modal
+       
         modal.show();
 
     } catch (err) {

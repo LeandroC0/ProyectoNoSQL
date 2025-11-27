@@ -4,7 +4,7 @@ let idEditando = null;
 const modalElement = document.getElementById("modalFavoritas");
 const modal = new bootstrap.Modal(modalElement);
 
-// Permitir uso global de funciones
+
 window.editarFavorito = editarFavorito;
 window.eliminarFavorito = eliminarFavorito;
 
@@ -79,7 +79,7 @@ document.getElementById("favoritasFormulario").addEventListener("submit", async 
 
         e.target.reset();
         modal.hide();
-        cargarDatosFavoritas(); // <- CORREGIDO
+        cargarDatosFavoritas(); 
 
     } catch (error) {
         console.error(error);
