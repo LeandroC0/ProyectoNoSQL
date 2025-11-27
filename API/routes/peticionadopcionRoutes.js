@@ -1,75 +1,118 @@
 const express = require('express');
-const router = express.Router();
+const route = express.Router();
+
 const PeticionAdopcion = require('../models/peticionadopcion');
 
-// Obtener todas las peticiones
-router.get('/', async (req, res) => {
+// ============================
+// CREATE
+// ============================
+route.post('/', async (req, resp) => {
+    const { 
+        idPeticion,
+        usuario,
+        mascota,
+        refugio,
+        estado,
+        fechaPeticion,
+        fechaRespuesta,
+        notasRefugio
+    } = req.body;
+
+    const nuevaPeticion = new PeticionAdopcion({
+        idPeticion,
+        usuario,
+        mascota,
+        refugio,
+        estado,
+        fechaPeticion,
+        fechaRespuesta,
+        notasRefugio
+    });
+
     try {
-        const data = await PeticionAdopcion.find();
-        res.json(data);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const guardado = await nuevaPeticion.save();
+        resp.status(201).json(guardado);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-// Crear nueva petición
-router.post('/', async (req, res) => {
+
+// ============================
+// READ - ALL
+// ============================
+route.get('/', async (req, resp) => {
     try {
-        const nueva = new PeticionAdopcion(req.body);
-        await nueva.save();
-        res.json(nueva);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+        const peticiones = await PeticionAdopcion.find();
+        resp.status(200).json(peticiones);
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
     }
 });
 
-// Obtener una petición por ID
-router.get('/:id', async (req, res) => {
-    try {
-        const data = await PeticionAdopcion.findOne({ idPeticion: req.params.id });
-        res.json(data);
-    } catch (err) {
-        res.status(404).json({ error: 'No encontrada' });
-    }
-});
-//añadiendo un get por id para que funcione el edit
-router.get('/:id', async (req, resp) => {
-    try {
-        const peticionadopcion = await PeticionAdopcion.findById(req.params.id);
 
-        if (!peticionadopcion) {
-            return resp.status(404).json({ mensaje: "Peticion de adopcion no encontrado" });
+// ============================
+// READ - BY ID
+// ============================
+route.get('/:id', async (req, resp) => {
+    try {
+        const peticion = await PeticionAdopcion.findOne({
+            idPeticion: req.params.id
+        });
+
+        if (!peticion) {
+            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
         }
 
-        resp.status(200).json(peticionadopcion);
+        resp.status(200).json(peticion);
 
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
 });
-//fin del anadido
-// Actualizar una petición
-router.put('/:id', async (req, res) => {
+
+
+// ============================
+// UPDATE
+// ============================
+route.put('/:id', async (req, resp) => {
     try {
-        const data = await PeticionAdopcion.findOneAndUpdate(
+        const peticionActualizada = await PeticionAdopcion.findOneAndUpdate(
             { idPeticion: req.params.id },
             req.body,
             { new: true }
         );
-        res.json(data);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+
+        if (!peticionActualizada) {
+            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
+        }
+
+        resp.status(200).json(peticionActualizada);
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-// Eliminar una petición
-router.delete('/:id', async (req, res) => {
+
+// ============================
+// DELETE
+// ============================
+route.delete('/:id', async (req, resp) => {
     try {
-        await PeticionAdopcion.findOneAndDelete({ idPeticion: req.params.id });
-        res.json({ message: 'Eliminado correctamente' });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const eliminada = await PeticionAdopcion.findOneAndDelete({
+            idPeticion: req.params.id
+        });
+
+        if (!eliminada) {
+            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
+        }
+
+        resp.status(200).json({ mensaje: "Petición de adopción eliminada correctamente" });
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-module.exports = router;
+module.exports = route;

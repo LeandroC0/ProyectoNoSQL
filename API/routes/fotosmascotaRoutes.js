@@ -1,69 +1,109 @@
 const express = require('express');
-const router = express.Router();
+const route = express.Router();
+
 const FotoMascota = require('../models/fotosmascota');
 
-router.get('/', async (req, res) => {
+// ============================
+// CREATE
+// ============================
+route.post('/', async (req, resp) => {
+    const { 
+        idFoto,
+        mascota,
+        url,
+        descripcion,
+        fechaSubida
+    } = req.body;
+
+    const nuevaFoto = new FotoMascota({
+        idFoto,
+        mascota,
+        url,
+        descripcion,
+        fechaSubida
+    });
+
     try {
-        res.json(await FotoMascota.find());
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const fotoGuardada = await nuevaFoto.save();
+        resp.status(201).json(fotoGuardada);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-router.post('/', async (req, res) => {
+
+// ============================
+// READ - ALL
+// ============================
+route.get('/', async (req, resp) => {
     try {
-        const nueva = new FotoMascota(req.body);
-        await nueva.save();
-        res.json(nueva);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+        const fotos = await FotoMascota.find();
+        resp.status(200).json(fotos);
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        res.json(await FotoMascota.findOne({ idFoto: req.params.id }));
-    } catch {
-        res.status(404).json({ error: 'No encontrado' });
-    }
-});
-//añadiendo un get por id para que funcione el edit
-router.get('/:id', async (req, resp) => {
-    try {
-        const fotosmascota = await FotoMascota.findById(req.params.id);
 
-        if (!fotosmascota) {
-            return resp.status(404).json({ mensaje: "Fotos de mascota no encontrada" });
+// ============================
+// READ - BY ID
+// ============================
+route.get('/:id', async (req, resp) => {
+    try {
+        const foto = await FotoMascota.findOne({ idFoto: req.params.id });
+
+        if (!foto) {
+            return resp.status(404).json({ mensaje: "Foto no encontrada" });
         }
 
-        resp.status(200).json(fotosmascota);
+        resp.status(200).json(foto);
 
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
 });
-//fin del anadido
-router.put('/:id', async (req, res) => {
+
+
+// ============================
+// UPDATE
+// ============================
+route.put('/:id', async (req, resp) => {
     try {
-        res.json(
-            await FotoMascota.findOneAndUpdate(
-                { idFoto: req.params.id },
-                req.body,
-                { new: true }
-            )
+        const fotoActualizada = await FotoMascota.findOneAndUpdate(
+            { idFoto: req.params.id },
+            req.body,
+            { new: true }
         );
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+
+        if (!fotoActualizada) {
+            return resp.status(404).json({ mensaje: "Foto no encontrada" });
+        }
+
+        resp.status(200).json(fotoActualizada);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-router.delete('/:id', async (req, res) => {
+
+// ============================
+// DELETE
+// ============================
+route.delete('/:id', async (req, resp) => {
     try {
-        await FotoMascota.findOneAndDelete({ idFoto: req.params.id });
-        res.json({ message: 'Eliminado' });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const fotoEliminada = await FotoMascota.findOneAndDelete({
+            idFoto: req.params.id
+        });
+
+        if (!fotoEliminada) {
+            return resp.status(404).json({ mensaje: "Foto no encontrada" });
+        }
+
+        resp.status(200).json({ mensaje: "Foto eliminada correctamente" });
+
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
-module.exports = router;
+module.exports = route;
