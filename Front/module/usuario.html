@@ -1,121 +1,386 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <title>Usuarios</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4a5568;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-back {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-back:hover {
+            background: #2d3748;
+            transform: translateY(-2px);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .table th {
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        .table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-color: #e2e8f0;
+        }
+
+        .table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f7fafc;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background-color: #48bb78;
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: #ed8936;
+            color: white;
+        }
+
+        .badge-info {
+            background-color: #4299e1;
+            color: white;
+        }
+
+        .btn-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-sm {
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            border: none;
+            padding: 20px;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #cbd5e0;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 101, 101, 0.4);
+        }
+
+        .btn-secondary {
+            background: #a0aec0;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #718096;
+            transform: translateY(-2px);
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #4a5568;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background-color: #f7fafc;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .btn-back {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+            
+            .btn-actions {
+                flex-direction: column;
+            }
+            
+            .nav-tabs .nav-link {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a href="#tabUsuarios" class="nav-link active" data-bs-toggle="tab">Usuarios</a>
-            </li>
-        </ul>
-
-        <div class="tab-content">
-            <div class="tab-pane fade show active" id="tabUsuarios"></div>
-        </div>
-    </header>
-
     <div class="container mt-4">
-
-        <h1 class="text-center">Usuarios</h1>
-
-        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalUsuario">
-            Crear Usuario
+        <!-- Botón de regreso -->
+        <button class="btn btn-back" onclick="goBack()">
+            <span>←</span> Volver al Inicio
         </button>
 
-        <!-- MODAL CREAR USUARIO -->
-        <div class="modal fade" id="modalUsuario" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
+        <div class="header">
+            <h1>👥 Usuarios</h1>
+            <p>Gestiona los usuarios del sistema y sus permisos</p>
+        </div>
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Nuevo Usuario</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+     
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tabUsuarios">
+                <button type="button" class="btn btn-primary btn-lg mb-4" data-bs-toggle="modal" data-bs-target="#modalUsuario">
+                    Crear Usuario
+                </button>
+
+                <!-- MODAL CREAR USUARIO -->
+                <div class="modal fade" id="modalUsuario" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nuevo Usuario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form id="usuarioFormulario">
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre:</label>
+                                        <input type="text" class="form-control" id="nombre" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Correo:</label>
+                                        <input type="email" class="form-control" id="correo" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Teléfono:</label>
+                                        <input type="text" class="form-control" id="telefono" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Dirección:</label>
+                                        <input type="text" class="form-control" id="direccion" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Rol:</label>
+                                        <select class="form-select" id="rol" required>
+                                            <option value="adoptante">Adoptante</option>
+                                            <option value="refugio">Refugio</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Fecha Registro:</label>
+                                        <input type="date" class="form-control" id="fechaRegistro" required>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <button type="reset" class="btn btn-danger">Limpiar</button>
+
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    Cerrar
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
+                </div>
 
-                    <div class="modal-body">
-                        <form id="usuarioFormulario">
-
-                            <div class="mb-3">
-                                <label class="form-label">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Correo:</label>
-                                <input type="email" class="form-control" id="correo" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Teléfono:</label>
-                                <input type="text" class="form-control" id="telefono" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Dirección:</label>
-                                <input type="text" class="form-control" id="direccion" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Rol:</label>
-                                <select class="form-select" id="rol" required>
-                                    <option value="adoptante">Adoptante</option>
-                                    <option value="refugio">Refugio</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Fecha Registro:</label>
-                                <input type="date" class="form-control" id="fechaRegistro" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                            <button type="reset" class="btn btn-danger">Limpiar</button>
-
-                        </form>
+                <!-- TABLA -->
+                <div class="table-container mt-4">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
+                                    <th>Rol</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaDatos">
+                                <!-- Los datos se cargarán aquí dinámicamente desde la base de datos -->
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Cerrar
-                        </button>
-                    </div>
-
                 </div>
             </div>
         </div>
-
-        <!-- TABLA -->
-        <div class="table-responsive mt-4">
-            <table class="table table-striped table-hover table-bordered">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Dirección</th>
-                        <th>Rol</th>
-                        <th>Fecha Registro</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaDatos"></tbody>
-            </table>
-
-        </div>
-
     </div>
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = '../index.html';
+        }
+    </script>
     <script src="../js/usuario.js"></script>
 </body>
 

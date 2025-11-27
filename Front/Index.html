@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - PetMatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        .card p {
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐾 PetMatch 🐾</h1>
+            <p>Gestiona toda la información de mascotas y adopciones en un solo lugar</p>
+        </div>
+
+        <div class="grid">
+            <!-- Tarjeta de Usuarios -->
+            <div class="card" onclick="navigateTo('usuario.html')">
+                <div class="icon">👥</div>
+                <h3>Usuarios</h3>
+                <p>Gestiona usuarios del sistema y sus permisos</p>
+            </div>
+
+            <!-- Tarjeta de Mascotas -->
+            <div class="card" onclick="navigateTo('mascotas.html')">
+                <div class="icon">🐶</div>
+                <h3>Mascotas</h3>
+                <p>Administra el registro de mascotas disponibles</p>
+            </div>
+
+            <!-- Tarjeta de Fotos Mascota -->
+            <div class="card" onclick="navigateTo('fotosmascota.html')">
+                <div class="icon">📷</div>
+                <h3>Fotos de Mascotas</h3>
+                <p>Gestiona las imágenes de las mascotas</p>
+            </div>
+
+            <!-- Tarjeta de Tipo Mascota -->
+            <div class="card" onclick="navigateTo('tipomascota.html')">
+                <div class="icon">🏷️</div>
+                <h3>Tipos de Mascota</h3>
+                <p>Configura categorías y razas de mascotas</p>
+            </div>
+
+            <!-- Tarjeta de Favoritas -->
+            <div class="card" onclick="navigateTo('favoritas.html')">
+                <div class="icon">⭐</div>
+                <h3>Favoritas</h3>
+                <p>Mascotas marcadas como favoritas por usuarios</p>
+            </div>
+
+            <!-- Tarjeta de Partes Médicos -->
+            <div class="card" onclick="navigateTo('partemedico.html')">
+                <div class="icon">🏥</div>
+                <h3>Partes Médicos</h3>
+                <p>Registros médicos y historiales de salud</p>
+            </div>
+
+            <!-- Tarjeta de Vacunas -->
+            <div class="card" onclick="navigateTo('vacunas.html')">
+                <div class="icon">💉</div>
+                <h3>Vacunas</h3>
+                <p>Control de vacunación y calendarios</p>
+            </div>
+
+            <!-- Tarjeta de Peticiones de Adopción -->
+            <div class="card" onclick="navigateTo('peticionadopcion.html')">
+                <div class="icon">📋</div>
+                <h3>Peticiones de Adopción</h3>
+                <p>Gestiona solicitudes de adopción</p>
+            </div>
+
+            <!-- Tarjeta de Registros -->
+            <div class="card" onclick="navigateTo('registros.html')">
+                <div class="icon">📊</div>
+                <h3>Registros</h3>
+                <p>Historial de actividades del sistema</p>
+            </div>
+
+            <!-- Tarjeta de Reseñas -->
+            <div class="card" onclick="navigateTo('resenas.html')">
+                <div class="icon">📝</div>
+                <h3>Reseñas</h3>
+                <p>Opiniones y comentarios de usuarios</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function navigateTo(page) {
+            window.location.href = `module/${page}`;
+        }
+
+        // También puedes agregar navegación con teclado
+        document.addEventListener('keydown', function(event) {
+            // Ejemplo: tecla Escape para volver al inicio
+            if (event.key === 'Escape') {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
