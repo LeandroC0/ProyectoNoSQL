@@ -59,7 +59,11 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Tipo:</label>
-                                <textarea class="form-control" id="tipo" required></textarea>
+                                <select class="form-control" id="tipo" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Maltrato">Maltrato</option>
+                                    <option value="Fraude">Fraude</option>
+                                </select>
                             </div>
 
                             <div class="mb-3">
@@ -72,14 +76,21 @@
                                 <textarea class="form-control" id="evidenciaUrl" required></textarea>
                             </div>
 
+
                             <div class="mb-3">
                                 <label class="form-label">Estado:</label>
-                                <textarea class="form-control" id="estado" required></textarea>
+                                <select class="form-control" id="estado" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="En revisión">En revisión</option>
+                                    <option value="Sin revisión">Sin revisión</option>
+                                </select>
                             </div>
+
+                          
 
                             <div class="mb-3">
                                 <label class="form-label">Fecha:</label>
-                                <textarea class="form-control" id="fecha" required></textarea>
+                                <input type="date" class="form-control" id="fecha" required>
                             </div>
 
                             
