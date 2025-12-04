@@ -22,8 +22,8 @@ route.post('/', async (req, resp) => {
     });
 
     try {
-        const guardada = await nuevaFavorita.save();
-        resp.status(201).json(guardada);
+        const favoritoGuardado = await nuevaFavorita.save();
+        resp.status(201).json(favoritoGuardado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
@@ -65,10 +65,31 @@ route.get('/:id', async (req, resp) => {
 // ============================
 // UPDATE
 // ============================
+// route.put('/:id', async (req, resp) => {
+//     try {
+//         const favoritaActualizada = await Favorita.findOneAndUpdate(
+//             { idFavorito: req.params.id },
+//             req.body,
+//             { new: true }
+//         );
+
+//         if (!favoritaActualizada) {
+//             return resp.status(404).json({ mensaje: "Favorita no encontrada" });
+//         }
+
+//         resp.status(200).json(favoritaActualizada);
+
+//     } catch (error) {
+//         resp.status(400).json({ mensaje: error.message });
+//     }
+// });
+
+
+
 route.put('/:id', async (req, resp) => {
     try {
-        const favoritaActualizada = await Favorita.findOneAndUpdate(
-            { idFavorito: req.params.id },
+        const favoritaActualizada = await Usuario.findByIdAndUpdate(
+            req.params.id,
             req.body,
             { new: true }
         );
@@ -78,7 +99,6 @@ route.put('/:id', async (req, resp) => {
         }
 
         resp.status(200).json(favoritaActualizada);
-
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
@@ -88,18 +108,39 @@ route.put('/:id', async (req, resp) => {
 // ============================
 // DELETE
 // ============================
+
+
+
+// route.delete('/:id', async (req, resp) => {
+//     try {
+//         const favoritaEliminada = await Favorita.findOneAndDelete({
+//             idFavorito: req.params.id
+//         });
+
+//         if (!favoritaEliminada) {
+//             return resp.status(404).json({ mensaje: "Favorita no encontrada" });
+//         }
+
+//         resp.status(200).json({ mensaje: "Favorita eliminada correctamente" });
+
+//     } catch (error) {
+//         resp.status(400).json({ mensaje: error.message });
+//     }
+// });
+
+//module.exports = route;
+
+
+
 route.delete('/:id', async (req, resp) => {
     try {
-        const favoritaEliminada = await Favorita.findOneAndDelete({
-            idFavorito: req.params.id
-        });
+        const favoritaEliminada = await Usuario.findByIdAndDelete(req.params.id);
 
         if (!favoritaEliminada) {
             return resp.status(404).json({ mensaje: "Favorita no encontrada" });
         }
 
         resp.status(200).json({ mensaje: "Favorita eliminada correctamente" });
-
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
