@@ -1,7 +1,7 @@
 const express = require('express');
 const route = express.Router();
 
-const Favorita = require('../models/Favoritas');
+const Favorita = require('../models/favoritas');
 
 // ============================
 // CREATE
