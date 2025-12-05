@@ -15,7 +15,7 @@ route.post('/', async (req, resp) => {
         fechaSubida
     } = req.body;
 
-    const nuevaFoto = new FotoMascota({
+    const nuevoFotoMascota = new FotoMascota({
         idFoto,
         mascota,
         url,
@@ -24,42 +24,37 @@ route.post('/', async (req, resp) => {
     });
 
     try {
-        const fotoGuardada = await nuevaFoto.save();
-        resp.status(201).json(fotoGuardada);
+        const fotosmascotaGuardado = await nuevoFotoMascota.save();
+        resp.status(201).json(fotosmascotaGuardado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
 
-
 // ============================
-// READ - ALL
+// READ
 // ============================
 route.get('/', async (req, resp) => {
     try {
-        const fotos = await FotoMascota.find();
-        resp.status(200).json(fotos);
+        const fotosmascota = await FotoMascota.find();
+        resp.status(200).json(fotosmascota);
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
 });
 
-
 // ============================
-// READ - BY ID
+// READ BY ID
 // ============================
 route.get('/:id', async (req, resp) => {
     try {
-        const foto = await FotoMascota.findOne({ idFoto: req.params.id });
-
-        if (!foto) {
-            return resp.status(404).json({ mensaje: "Foto no encontrada" });
+        const fotosmascotas = await FotoMascota.findById(req.params.id);
+        if (!fotosmascotas) {
+            return resp.status(404).json({ mensaje: "Foto Mascota no encontrada" });
         }
-
-        resp.status(200).json(foto);
-
+        resp.status(200).json(fotosmascotas);
     } catch (error) {
-        resp.status(500).json({ mensaje: error.message });
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
@@ -69,38 +64,34 @@ route.get('/:id', async (req, resp) => {
 // ============================
 route.put('/:id', async (req, resp) => {
     try {
-        const fotoActualizada = await FotoMascota.findOneAndUpdate(
-            { idFoto: req.params.id },
+        const fotosmascotasActualizado = await FotoMascota.findByIdAndUpdate(
+            req.params.id,
             req.body,
             { new: true }
         );
 
-        if (!fotoActualizada) {
-            return resp.status(404).json({ mensaje: "Foto no encontrada" });
+        if (!fotosmascotasActualizado) {
+            return resp.status(404).json({ mensaje: "Foto Mascota no encontrada" });
         }
 
-        resp.status(200).json(fotoActualizada);
+        resp.status(200).json(fotosmascotasActualizado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
-
 
 // ============================
 // DELETE
 // ============================
 route.delete('/:id', async (req, resp) => {
     try {
-        const fotoEliminada = await FotoMascota.findOneAndDelete({
-            idFoto: req.params.id
-        });
+        const usuarioEliminado = await FotoMascota.findByIdAndDelete(req.params.id);
 
-        if (!fotoEliminada) {
-            return resp.status(404).json({ mensaje: "Foto no encontrada" });
+        if (!usuarioEliminado) {
+            return resp.status(404).json({ mensaje: "Foto Mascota no encontrada" });
         }
 
-        resp.status(200).json({ mensaje: "Foto eliminada correctamente" });
-
+        resp.status(200).json({ mensaje: "Foto Mascota eliminada correctamente" });
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
