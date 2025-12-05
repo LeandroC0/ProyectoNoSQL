@@ -1,7 +1,7 @@
 const express = require('express');
 const route = express.Router();
 
-const Favorita = require('../models/favoritas');
+const Favoritas = require('../models/favoritas');
 
 // ============================
 // CREATE
@@ -9,21 +9,48 @@ const Favorita = require('../models/favoritas');
 route.post('/', async (req, resp) => {
     const { 
         idFavorito,
-        usuario,
+        favorita,
         mascota,
         fechaGuardado
     } = req.body;
 
-    const nuevaFavorita = new Favorita({
+    const nuevoFavoritas = new Favoritas({
         idFavorito,
-        usuario,
+        favorita,
         mascota,
         fechaGuardado
     });
 
     try {
-        const favoritoGuardado = await nuevaFavorita.save();
-        resp.status(201).json(favoritoGuardado);
+        const favoritasGuardado = await nuevoFavoritas.save();
+        resp.status(201).json(favoritasGuardado);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
+    }
+});
+
+// ============================
+// READ
+// ============================
+route.get('/', async (req, resp) => {
+    try {
+        const favoritas = await Favoritas.find();
+        resp.status(200).json(favoritas);
+    } catch (error) {
+        resp.status(500).json({ mensaje: error.message });
+    }
+});
+
+// ============================
+// READ BY ID
+// ============================
+route.get('/:id', async (req, resp) => {
+    try {
+        const favorita = await Favoritas.findById(req.params.id);
+        if (!favorita) {
+            return resp.status(404).json({ mensaje: "Favoritas no encontrado" });
+        }
+        resp.status(200).json(favorita);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
@@ -31,119 +58,41 @@ route.post('/', async (req, resp) => {
 
 
 // ============================
-// READ - ALL
-// ============================
-route.get('/', async (req, resp) => {
-    try {
-        const favoritas = await Favorita.find();
-        resp.status(200).json(favoritas);
-    } catch (error) {
-        resp.status(500).json({ mensaje: error.message });
-    }
-});
-
-
-// ============================
-// READ - BY ID
-// ============================
-route.get('/:id', async (req, resp) => {
-    try {
-        const favorita = await Favorita.findOne({ idFavorito: req.params.id });
-
-        if (!favorita) {
-            return resp.status(404).json({ mensaje: "Favorita no encontrada" });
-        }
-
-        resp.status(200).json(favorita);
-
-    } catch (error) {
-        resp.status(500).json({ mensaje: error.message });
-    }
-});
-
-
-// ============================
 // UPDATE
 // ============================
- route.put('/:id', async (req, resp) => {
-     try {
-         const favoritaActualizada = await Favorita.findOneAndUpdate(
-             { idFavorito: req.params.id },
-             req.body,
-             { new: true }
-         );
+route.put('/:id', async (req, resp) => {
+    try {
+        const favoritaActualizado = await Favoritas.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
 
-         if (!favoritaActualizada) {
-             return resp.status(404).json({ mensaje: "Favorita no encontrada" });
-         }
+        if (!favoritaActualizado) {
+            return resp.status(404).json({ mensaje: "Favoritas no encontrado" });
+        }
 
-         resp.status(200).json(favoritaActualizada);
-
-     } catch (error) {
-         resp.status(400).json({ mensaje: error.message });
-     }
- });
-
-
-
-// route.put('/:id', async (req, resp) => {
-//     try {
-//         const favoritaActualizada = await Usuario.findByIdAndUpdate(
-//             req.params.id,
-//             req.body,
-//             { new: true }
-//         );
-
-//         if (!favoritaActualizada) {
-//             return resp.status(404).json({ mensaje: "Favorita no encontrada" });
-//         }
-
-//         resp.status(200).json(favoritaActualizada);
-//     } catch (error) {
-//         resp.status(400).json({ mensaje: error.message });
-//     }
-// });
-
+        resp.status(200).json(favoritaActualizado);
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
+    }
+});
 
 // ============================
 // DELETE
 // ============================
-
-
-
 route.delete('/:id', async (req, resp) => {
-     try {
-        const favoritaEliminada = await Favorita.findOneAndDelete({
-            idFavorito: req.params.id
-         });
+    try {
+        const favoritaEliminado = await Favoritas.findByIdAndDelete(req.params.id);
 
-         if (!favoritaEliminada) {
-             return resp.status(404).json({ mensaje: "Favorita no encontrada" });
-         }
+        if (!favoritaEliminado) {
+            return resp.status(404).json({ mensaje: "Favoritas no encontrado" });
+        }
 
-         resp.status(200).json({ mensaje: "Favorita eliminada correctamente" });
-
-     } catch (error) {
-         resp.status(400).json({ mensaje: error.message });
-     }
- });
+        resp.status(200).json({ mensaje: "Favoritas eliminado correctamente" });
+    } catch (error) {
+        resp.status(400).json({ mensaje: error.message });
+    }
+});
 
 module.exports = route;
-
-
-
-// route.delete('/:id', async (req, resp) => {
-//     try {
-//         const favoritaEliminada = await Usuario.findByIdAndDelete(req.params.id);
-
-//         if (!favoritaEliminada) {
-//             return resp.status(404).json({ mensaje: "Favorita no encontrada" });
-//         }
-
-//         resp.status(200).json({ mensaje: "Favorita eliminada correctamente" });
-//     } catch (error) {
-//         resp.status(400).json({ mensaje: error.message });
-//     }
-// });
-
-// module.exports = route;
