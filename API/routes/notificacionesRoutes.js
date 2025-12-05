@@ -1,7 +1,7 @@
 const express = require('express');
 const route = express.Router();
 
-const Notificacion = require('../models/notificaciones');
+const Notificaciones = require('../models/notificaciones');
 
 // ============================
 // CREATE
@@ -16,7 +16,7 @@ route.post('/', async (req, resp) => {
         fecha
     } = req.body;
 
-    const nuevaNotificacion = new Notificacion({
+    const nuevoNotificaciones = new Notificaciones({
         idNotificacion,
         usuario,
         mensaje,
@@ -26,42 +26,37 @@ route.post('/', async (req, resp) => {
     });
 
     try {
-        const guardada = await nuevaNotificacion.save();
-        resp.status(201).json(guardada);
+        const notificacionesGuardado = await nuevoNotificaciones.save();
+        resp.status(201).json(notificacionesGuardado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
 
-
 // ============================
-// READ - ALL
+// READ
 // ============================
 route.get('/', async (req, resp) => {
     try {
-        const notificaciones = await Notificacion.find();
+        const notificaciones = await Notificaciones.find();
         resp.status(200).json(notificaciones);
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
 });
 
-
 // ============================
-// READ - BY ID
+// READ BY ID
 // ============================
 route.get('/:id', async (req, resp) => {
     try {
-        const notificacion = await Notificacion.findOne({ idNotificacion: req.params.id });
-
+        const notificacion = await Notificaciones.findById(req.params.id);
         if (!notificacion) {
-            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
+            return resp.status(404).json({ mensaje: "Notificaciones no encontradas" });
         }
-
         resp.status(200).json(notificacion);
-
     } catch (error) {
-        resp.status(500).json({ mensaje: error.message });
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
@@ -71,39 +66,34 @@ route.get('/:id', async (req, resp) => {
 // ============================
 route.put('/:id', async (req, resp) => {
     try {
-        const notificacionActualizada = await Notificacion.findOneAndUpdate(
-            { idNotificacion: req.params.id },
+        const notificacionActualizado = await Notificaciones.findByIdAndUpdate(
+            req.params.id,
             req.body,
             { new: true }
         );
 
-        if (!notificacionActualizada) {
-            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
+        if (!notificacionActualizado) {
+            return resp.status(404).json({ mensaje: "Notificaciones no encontradas" });
         }
 
-        resp.status(200).json(notificacionActualizada);
-
+        resp.status(200).json(notificacionActualizado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
-
 
 // ============================
 // DELETE
 // ============================
 route.delete('/:id', async (req, resp) => {
     try {
-        const eliminada = await Notificacion.findOneAndDelete({
-            idNotificacion: req.params.id
-        });
+        const notificacionEliminado = await Notificaciones.findByIdAndDelete(req.params.id);
 
-        if (!eliminada) {
-            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
+        if (!notificacionEliminado) {
+            return resp.status(404).json({ mensaje: "Notificaciones no encontradas" });
         }
 
-        resp.status(200).json({ mensaje: "Notificación eliminada correctamente" });
-
+        resp.status(200).json({ mensaje: "Notificacion eliminada correctamente" });
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }

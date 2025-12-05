@@ -1,37 +1,40 @@
 
-const APIURL_PARTE = "http://localhost:7000/api/partemedico/";
+const APIURL_PARTEMEDICO = "http://localhost:7000/api/partemedico/";
+
 
 let idEditando = null;
 const modalElement = document.getElementById("modalParteMedico");
 const modal = new bootstrap.Modal(modalElement);
 
-
 window.editarParteMedico = editarParteMedico;
 window.eliminarParteMedico = eliminarParteMedico;
-
 
 // ===============================
 // CARGAR DATOS
 // ===============================
 async function cargarDatosParteMedico() {
     try {
-        const res = await fetch(APIURL_PARTE);
-        if (!res.ok) throw new Error(`Error al cargar parte medico: ${res.status}`);
+        const res = await fetch(APIURL_PARTEMEDICO);
+        if (!res.ok) throw new Error(`Error al cargar Parte Medico: ${res.status} ${res.statusText}`);
+        const ParteMedico = await res.json();
 
-        const parte = await res.json();
         const tbody = document.getElementById("tablaParteMedico");
         tbody.innerHTML = "";
 
-        parte.forEach(p => {
+        ParteMedico.forEach(p => {
+        
+            const fecha = p.fecha ? (p.fecha.substring ? p.fecha.substring(0,10) : String(p.fecha)) : "";
+            const fechapc = p.proximaCita ? (p.proximaCita.substring ? p.proximaCita.substring(0,10) : String(p.proximaCita)) : "";
+
             tbody.innerHTML += `
                 <tr>
                     <td>${p.idHistorial || ""}</td>
                     <td>${p.mascota || ""}</td>
-                    <td>${p.fecha || ""}</td>
+                    <td>${fecha}</td>
                     <td>${p.veterinario || ""}</td>
                     <td>${p.diagnostico || ""}</td>
                     <td>${p.tratamiento || ""}</td>
-                    <td>${p.proximaCita || ""}</td>
+                    <td>${fechapc}</td>
                     <td>
                         <button class="btn btn-warning btn-sm" onclick="editarParteMedico('${p._id}')">Editar</button>
                         <button class="btn btn-danger btn-sm" onclick="eliminarParteMedico('${p._id}')">Eliminar</button>
@@ -39,18 +42,17 @@ async function cargarDatosParteMedico() {
                 </tr>
             `;
         });
-
     } catch (err) {
         console.error(err);
-        alert("Error cargando parte medico.");
+        alert("Error cargando Parte Medico. Revisa la consola para más detalles.");
     }
 }
 
 
 // ===============================
-// GUARDAR O EDITAR
+// GUARDAR O EDITAR USUARIO
 // ===============================
-document.getElementById("tipoFormulario").addEventListener("submit", async e => {
+document.getElementById("ParteMedicoFormulario").addEventListener("submit", async e => {
     e.preventDefault();
 
     const datos = {
@@ -58,52 +60,48 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
         mascota: document.getElementById("mascota").value,
         fecha: document.getElementById("fecha").value,
         veterinario: document.getElementById("veterinario").value,
+        diagnostico: document.getElementById("diagnostico").value,
         tratamiento: document.getElementById("tratamiento").value,
         proximaCita: document.getElementById("proximaCita").value
     };
 
     try {
         if (!idEditando) {
-            // Crear nuevo parte
-            const res = await fetch(APIURL_PARTE, {
+            const res = await fetch(APIURL_PARTEMEDICO, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datos)
             });
-            if (!res.ok) throw new Error("Error al crear parte medico");
+            if (!res.ok) throw new Error(`POST falló: ${res.status}`);
         } else {
-            // Actualizar partes medicos existentes
-            const res = await fetch(APIURL_PARTE + idEditando, {
+            const res = await fetch(APIURL_PARTEMEDICO + idEditando, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datos)
             });
-            if (!res.ok) throw new Error("Error al actualizar parte medico");
-
+            if (!res.ok) throw new Error(`PUT falló: ${res.status}`);
             idEditando = null;
-            document.querySelector(".modal-title").textContent = "Nuevo parte medico";
+            document.querySelector(".modal-title").textContent = "Nuevo Parte Medico";
         }
 
         e.target.reset();
         modal.hide();
         cargarDatosParteMedico();
-
-    } catch (error) {
-        console.error(error);
-        alert("Error guardando parte medico.");
+    } catch (err) {
+        console.error("Error guardando/actualizando:", err);
+        alert("Error al guardar/actualizar. Revisa la consola.");
     }
 });
 
 
 // ===============================
-// EDITAR
+// FUNCION: EDITAR
 // ===============================
-
 async function editarParteMedico(_id) {
     console.log("ID recibido desde botón:", _id);
 
     try {
-        const res = await fetch(`http://localhost:7000/api/partemedico/${_id}`);
+        const res = await fetch(APIURL_PARTEMEDICO + _id);
 
         if (!res.ok) {
             throw new Error(`GET por ID falló: ${res.status} ${res.statusText}`);
@@ -111,46 +109,59 @@ async function editarParteMedico(_id) {
 
         const p = await res.json();
 
-        idEditando = _id; 
+        idEditando = _id;
 
-       
         document.getElementById("idHistorial").value = p.idHistorial || "";
-        document.getElementById("mascota").value = p.mascota || ""; 
-        document.getElementById("fecha").value = p.fecha || ""; 
+        document.getElementById("mascota").value = p.mascota || "";
         document.getElementById("veterinario").value = p.veterinario || "";
         document.getElementById("diagnostico").value = p.diagnostico || "";
         document.getElementById("tratamiento").value = p.tratamiento || "";
-        document.getElementById("proximaCita").value = p.proximaCita || "";
+        if (p.fecha) {
+            const fecha = p.fecha.substring
+                ? p.fecha.substring(0, 10)
+                : String(p.fecha);
+            document.getElementById("fecha").value = fecha;
+        } else {
+            document.getElementById("fecha").value = "";
+        }
+        // document.getElementById("veterinario").value = p.veterinario || "";
+        // document.getElementById("diagnostico").value = p.diagnostico || "";
+        // document.getElementById("tratamiento").value = p.tratamiento || "";
+        if (p.proximaCita) {
+            const fecha = p.proximaCita.substring
+                ? p.proximaCita.substring(0, 10)
+                : String(p.proximaCita);
+            document.getElementById("proximaCita").value = fecha;
+        } else {
+            document.getElementById("proximaCita").value = "";
+        }
 
-        // Cambiar título del modal
-        document.querySelector(".modal-title").textContent = "Editar parte medico";
-
-        // Abrir modal
+        document.querySelector(".modal-title").textContent = "Editar Parte Medico";
         modal.show();
 
     } catch (err) {
-        console.error("Error al obtener tipo por ID:", err);
-        alert("No se pudo obtener el parte medico. Revisa la consola / network.");
+        console.error("Error al obtener Parte Medico por ID:", err);
+        alert("No se pudo obtener el Parte Medico. Revisa la consola / network.");
     }
 }
 
 
 // ===============================
-// ELIMINAR
+// FUNCION: ELIMINAR
 // ===============================
 async function eliminarParteMedico(id) {
-    if (!confirm("¿Seguro que deseas eliminar este parte medico?")) return;
+    const confirmar = confirm("¿Seguro que deseas eliminar este Parte Medico?");
+    if (!confirmar) return;
 
     try {
-        const res = await fetch(APIURL_PARTE + id, { method: "DELETE" });
-        if (!res.ok) throw new Error("Error al eliminar");
-
+        const res = await fetch(APIURL_PARTEMEDICO + id, { method: "DELETE" });
+        if (!res.ok) throw new Error(`DELETE falló: ${res.status}`);
         cargarDatosParteMedico();
-
     } catch (err) {
-        console.error(err);
-        alert("Error al eliminar parte medico.");
+        console.error("Error eliminando Parte Medico:", err);
+        alert("Error al eliminar. Revisa la consola.");
     }
 }
+
 
 cargarDatosParteMedico();

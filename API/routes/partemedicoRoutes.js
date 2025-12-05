@@ -40,8 +40,8 @@ route.post('/', async (req, resp) => {
 // ============================
 route.get('/', async (req, resp) => {
     try {
-        const ParteMedicos = await ParteMedico.find();
-        resp.status(200).json(ParteMedicos);
+        const partesmedicos = await ParteMedico.find();
+        resp.status(200).json(partesmedicos);
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
@@ -52,11 +52,11 @@ route.get('/', async (req, resp) => {
 // ============================
 route.get('/:id', async (req, resp) => {
     try {
-        const ParteMedico = await ParteMedico.findById(req.params.id);
-        if (!ParteMedico) {
+        const partemedico = await ParteMedico.findById(req.params.id);
+        if (!partemedico) {
             return resp.status(404).json({ mensaje: "Parte Medico no encontrado" });
         }
-        resp.status(200).json(ParteMedico);
+        resp.status(200).json(partemedico);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
@@ -68,17 +68,17 @@ route.get('/:id', async (req, resp) => {
 // ============================
 route.put('/:id', async (req, resp) => {
     try {
-        const ParteMedicoActualizado = await ParteMedico.findByIdAndUpdate(
+        const partemedicoActualizado = await ParteMedico.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true }
         );
 
-        if (!ParteMedicoActualizado) {
+        if (!partemedicoActualizado) {
             return resp.status(404).json({ mensaje: "Parte Medico no encontrado" });
         }
 
-        resp.status(200).json(ParteMedicoActualizado);
+        resp.status(200).json(partemedicoActualizado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
@@ -89,9 +89,9 @@ route.put('/:id', async (req, resp) => {
 // ============================
 route.delete('/:id', async (req, resp) => {
     try {
-        const ParteMedicoEliminado = await ParteMedico.findByIdAndDelete(req.params.id);
+        const partemedicoEliminado = await ParteMedico.findByIdAndDelete(req.params.id);
 
-        if (!ParteMedicoEliminado) {
+        if (!partemedicoEliminado) {
             return resp.status(404).json({ mensaje: "Parte Medico no encontrado" });
         }
 
