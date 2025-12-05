@@ -3,7 +3,7 @@ const APIURL_NOTIFICACIONES = "http://localhost:7000/api/notificaciones/";
 
 let idEditando = null;
 const modalElement = document.getElementById("modalNotificaciones");
-const modal = new bootstran.Modal(modalElement);
+const modal = new bootstrap.Modal(modalElement);
 
 // Permitir uso global de funciones
 window.editarNotificaciones = editarNotificaciones;
@@ -49,7 +49,7 @@ async function cargarDatosNotificaciones() {
 // ===============================
 // GUARDAR O EDITAR
 // ===============================
-document.getElementById("tipoFormulario").addEventListener("submit", async e => {
+document.getElementById("notificacionesFormulario").addEventListener("submit", async e => {
     e.preventDefault();
 
     const datos = {

@@ -3,7 +3,7 @@ const APIURL_REPORTES = "http://localhost:7000/api/reportes/";
 
 let idEditando = null;
 const modalElement = document.getElementById("modalReportes");
-const modal = new bootstrar.Modal(modalElement);
+const modal = new bootstrap.Modal(modalElement);
 
 
 window.editarReportes = editarReportes;
