@@ -18,7 +18,7 @@ route.post('/', async (req, resp) => {
         notasRefugio
     } = req.body;
 
-    const nuevaPeticion = new PeticionAdopcion({
+    const nuevoPeticionAdopcion = new PeticionAdopcion({
         idPeticion,
         usuario,
         mascota,
@@ -30,44 +30,37 @@ route.post('/', async (req, resp) => {
     });
 
     try {
-        const guardado = await nuevaPeticion.save();
-        resp.status(201).json(guardado);
+        const peticionesadopcionGuardado = await nuevoPeticionAdopcion.save();
+        resp.status(201).json(peticionesadopcionGuardado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
 
-
 // ============================
-// READ - ALL
+// READ
 // ============================
 route.get('/', async (req, resp) => {
     try {
-        const peticiones = await PeticionAdopcion.find();
-        resp.status(200).json(peticiones);
+        const peticionesadopcion = await PeticionAdopcion.find();
+        resp.status(200).json(peticionesadopcion);
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
 });
 
-
 // ============================
-// READ - BY ID
+// READ BY ID
 // ============================
 route.get('/:id', async (req, resp) => {
     try {
-        const peticion = await PeticionAdopcion.findOne({
-            idPeticion: req.params.id
-        });
-
-        if (!peticion) {
-            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
+        const peticionadopcion = await PeticionAdopcion.findById(req.params.id);
+        if (!peticionadopcion) {
+            return resp.status(404).json({ mensaje: "Peticion de Adopcion no encontrado" });
         }
-
-        resp.status(200).json(peticion);
-
+        resp.status(200).json(peticionadopcion);
     } catch (error) {
-        resp.status(500).json({ mensaje: error.message });
+        resp.status(400).json({ mensaje: error.message });
     }
 });
 
@@ -77,39 +70,34 @@ route.get('/:id', async (req, resp) => {
 // ============================
 route.put('/:id', async (req, resp) => {
     try {
-        const peticionActualizada = await PeticionAdopcion.findOneAndUpdate(
-            { idPeticion: req.params.id },
+        const peticionesadopcionActualizado = await PeticionAdopcion.findByIdAndUpdate(
+            req.params.id,
             req.body,
             { new: true }
         );
 
-        if (!peticionActualizada) {
-            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
+        if (!peticionesadopcionActualizado) {
+            return resp.status(404).json({ mensaje: "PeticionAdopcion no encontrado" });
         }
 
-        resp.status(200).json(peticionActualizada);
-
+        resp.status(200).json(peticionesadopcionActualizado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
-
 
 // ============================
 // DELETE
 // ============================
 route.delete('/:id', async (req, resp) => {
     try {
-        const eliminada = await PeticionAdopcion.findOneAndDelete({
-            idPeticion: req.params.id
-        });
+        const peticionesadopcionEliminado = await PeticionAdopcion.findByIdAndDelete(req.params.id);
 
-        if (!eliminada) {
-            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
+        if (!peticionesadopcionEliminado) {
+            return resp.status(404).json({ mensaje: "Peticion de Adopcion no encontrado" });
         }
 
-        resp.status(200).json({ mensaje: "Petición de adopción eliminada correctamente" });
-
+        resp.status(200).json({ mensaje: "Peticion de Adopcion eliminado correctamente" });
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
