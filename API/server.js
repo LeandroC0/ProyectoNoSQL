@@ -18,7 +18,7 @@ const favoritasRoutes = require('./routes/favoritasRoutes');
 const fotosmascotaRoutes = require('./routes/fotosmascotaRoutes');
 const notificacionesRoutes = require('./routes/notificacionesRoutes');
 const partemedicoRoutes = require('./routes/partemedicoRoutes');
-const peticionesRoutes = require('./routes/peticionadopcionRoutes');
+const peticionadopcionRoutes = require('./routes/peticionadopcionRoutes');
 const reportesRoutes = require('./routes/reportesRoutes');
 
 
@@ -46,9 +46,9 @@ app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/vacunas', vacunasRoutes);
 app.use('/api/favoritas', favoritasRoutes)
 app.use('/api/fotosmascota', fotosmascotaRoutes)
-app.use('/api/notificaiones', notificacionesRoutes)
+app.use('/api/notificaciones', notificacionesRoutes)
 app.use('/api/partemedico', partemedicoRoutes)
-app.use('/api/peticionadopcion', peticionesRoutes)
+app.use('/api/peticionadopcion', peticionadopcionRoutes)
 app.use('/api/reportes', reportesRoutes)
 
 

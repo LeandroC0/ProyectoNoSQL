@@ -21,24 +21,24 @@ async function cargarDatosPeticionAdopcion() {
         const tbody = document.getElementById("tablaPeticionAdopcion");
         tbody.innerHTML = "";
 
-        peticionesadopcion.forEach(f => {
+        peticionesadopcion.forEach(p => {
         
-            const fecha = f.fechaPeticion ? (f.fechaPeticion.substring ? f.fechaPeticion.substring(0,10) : String(f.fechaPeticion)) : "";
-            const fechaR = f.fechaRespuesta ? (f.fechaRespuesta.substring ? f.fechaRespuesta.substring(0,10) : String(f.fechaRespuesta)) : "";
+            const fecha = p.fechaPeticion ? (p.fechaPeticion.substring ? p.fechaPeticion.substring(0,10) : String(p.fechaPeticion)) : "";
+            const fechaR = p.fechaRespuesta ? (p.fechaRespuesta.substring ? p.fechaRespuesta.substring(0,10) : String(p.fechaRespuesta)) : "";
 
             tbody.innerHTML += `
                 <tr>
-                    <td>${f.idPeticion || ""}</td>
-                    <td>${f.usuario || ""}</td>
-                    <td>${f.mascota || ""}</td>
-                    <td>${f.refugio || ""}</td>
-                    <td>${f.estado || ""}</td>
+                    <td>${p.idPeticion || ""}</td>
+                    <td>${p.usuario || ""}</td>
+                    <td>${p.mascota || ""}</td>
+                    <td>${p.refugio || ""}</td>
+                    <td>${p.estado || ""}</td>
                     <td>${fecha}</td>
                     <td>${fechaR}</td>
-                    <td>${f.notasRefugio || ""}</td>
+                    <td>${p.notasRefugio || ""}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editarPeticionAdopcion('${f.idPeticion}')">Editar</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarPeticionAdopcion('${f.idPeticion}')">Eliminar</button>
+                        <button class="btn btn-warning btn-sm" onclick="editarPeticionAdopcion('${p._id}')">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarPeticionAdopcion('${p._id}')">Eliminar</button>
                     </td>
                 </tr>
             `;
@@ -64,8 +64,7 @@ document.getElementById("peticionesadopcionFormulario").addEventListener("submit
         estado: document.getElementById("estado").value,
         fechaPeticion: document.getElementById("fechaPeticion").value,
         fechaRespuesta: document.getElementById("fechaRespuesta").value,
-        notasRefugio: document.getElementById("notasRefugio").value
-        
+        notasRefugio: document.getElementById("notasRefugio").value        
     };
 
     try {
@@ -110,24 +109,25 @@ async function editarPeticionAdopcion(_id) {
             throw new Error(`GET por ID falló: ${res.status} ${res.statusText}`);
         }
 
-        const f = await res.json();
+        const p = await res.json();
 
         idEditando = _id;
 
-        document.getElementById("idPeticion").value = f.idPeticion || "";
-        document.getElementById("usuario").value = f.usuario || "";
-        document.getElementById("mascota").value = f.mascota || "";
-        document.getElementById("refugio").value = f.refugio || "";
-        document.getElementById("estado").value = f.estado || "";
+        document.getElementById("idPeticion").value = p.idPeticion || "";
+        document.getElementById("usuario").value = p.usuario || "";
+        document.getElementById("mascota").value = p.mascota || "";
+        document.getElementById("refugio").value = p.refugio || "";
+        document.getElementById("estado").value = p.estado || "";
 
-        if (f.fechaPeticion) {
-            const fecha = f.fechaPeticion.substring
-                ? f.fechaPeticion.substring(0, 10)
-                : String(f.fechaPeticion);
+        if (p.fechaPeticion) {
+            const fecha = p.fechaPeticion.substring
+                ? p.fechaPeticion.substring(0, 10)
+                : String(p.fechaPeticion);
             document.getElementById("fechaPeticion").value = fecha;
         } else {
             document.getElementById("fechaPeticion").value = "";
         }
+
 
         if (f.fechaRespuesta) {
             const fechaR = f.fechaRespuesta.substring

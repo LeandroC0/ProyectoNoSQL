@@ -128,10 +128,10 @@ async function editarParteMedico(_id) {
         // document.getElementById("diagnostico").value = p.diagnostico || "";
         // document.getElementById("tratamiento").value = p.tratamiento || "";
         if (p.proximaCita) {
-            const fecha = p.proximaCita.substring
+            const fechapc = p.proximaCita.substring
                 ? p.proximaCita.substring(0, 10)
                 : String(p.proximaCita);
-            document.getElementById("proximaCita").value = fecha;
+            document.getElementById("proximaCita").value = fechapc;
         } else {
             document.getElementById("proximaCita").value = "";
         }

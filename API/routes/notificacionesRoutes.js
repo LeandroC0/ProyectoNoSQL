@@ -1,6 +1,5 @@
 const express = require('express');
 const route = express.Router();
-
 const Notificaciones = require('../models/notificaciones');
 
 // ============================
@@ -34,7 +33,7 @@ route.post('/', async (req, resp) => {
 });
 
 // ============================
-// READ
+// READ ALL
 // ============================
 route.get('/', async (req, resp) => {
     try {
@@ -52,14 +51,13 @@ route.get('/:id', async (req, resp) => {
     try {
         const notificacion = await Notificaciones.findById(req.params.id);
         if (!notificacion) {
-            return resp.status(404).json({ mensaje: "Notificaciones no encontradas" });
+            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
         }
         resp.status(200).json(notificacion);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
-
 
 // ============================
 // UPDATE
@@ -71,11 +69,9 @@ route.put('/:id', async (req, resp) => {
             req.body,
             { new: true }
         );
-
         if (!notificacionActualizado) {
-            return resp.status(404).json({ mensaje: "Notificaciones no encontradas" });
+            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
         }
-
         resp.status(200).json(notificacionActualizado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
@@ -88,12 +84,10 @@ route.put('/:id', async (req, resp) => {
 route.delete('/:id', async (req, resp) => {
     try {
         const notificacionEliminado = await Notificaciones.findByIdAndDelete(req.params.id);
-
         if (!notificacionEliminado) {
-            return resp.status(404).json({ mensaje: "Notificaciones no encontradas" });
+            return resp.status(404).json({ mensaje: "Notificación no encontrada" });
         }
-
-        resp.status(200).json({ mensaje: "Notificacion eliminada correctamente" });
+        resp.status(200).json({ mensaje: "Notificación eliminada correctamente" });
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }

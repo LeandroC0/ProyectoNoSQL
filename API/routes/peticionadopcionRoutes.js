@@ -30,8 +30,8 @@ route.post('/', async (req, resp) => {
     });
 
     try {
-        const peticionesadopcionGuardado = await nuevoPeticionAdopcion.save();
-        resp.status(201).json(peticionesadopcionGuardado);
+        const PeticionAdopcionGuardado = await nuevoPeticionAdopcion.save();
+        resp.status(201).json(PeticionAdopcionGuardado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
