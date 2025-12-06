@@ -34,9 +34,7 @@ const PeticionAdopcionSchema = new mongoose.Schema(
             type: String
         }
     },
-    {
-        collection: 'peticionesAdopcion'
-    }
+    { collection: 'peticionesAdopcion' }
 );
 
 module.exports = mongoose.model('PeticionAdopcion', PeticionAdopcionSchema);

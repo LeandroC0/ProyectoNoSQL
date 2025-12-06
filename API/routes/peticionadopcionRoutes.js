@@ -1,13 +1,12 @@
 const express = require('express');
 const route = express.Router();
-
 const PeticionAdopcion = require('../models/peticionadopcion');
 
 // ============================
 // CREATE
 // ============================
 route.post('/', async (req, resp) => {
-    const { 
+    const {
         idPeticion,
         usuario,
         mascota,
@@ -30,20 +29,20 @@ route.post('/', async (req, resp) => {
     });
 
     try {
-        const PeticionAdopcionGuardado = await nuevoPeticionAdopcion.save();
-        resp.status(201).json(PeticionAdopcionGuardado);
+        const guardado = await nuevoPeticionAdopcion.save();
+        resp.status(201).json(guardado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
 
 // ============================
-// READ
+// READ ALL
 // ============================
 route.get('/', async (req, resp) => {
     try {
-        const peticionesadopcion = await PeticionAdopcion.find();
-        resp.status(200).json(peticionesadopcion);
+        const lista = await PeticionAdopcion.find();
+        resp.status(200).json(lista);
     } catch (error) {
         resp.status(500).json({ mensaje: error.message });
     }
@@ -54,33 +53,32 @@ route.get('/', async (req, resp) => {
 // ============================
 route.get('/:id', async (req, resp) => {
     try {
-        const peticionadopcion = await PeticionAdopcion.findById(req.params.id);
-        if (!peticionadopcion) {
-            return resp.status(404).json({ mensaje: "Peticion de Adopcion no encontrado" });
+        const peticion = await PeticionAdopcion.findById(req.params.id);
+        if (!peticion) {
+            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
         }
-        resp.status(200).json(peticionadopcion);
+        resp.status(200).json(peticion);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
 });
-
 
 // ============================
 // UPDATE
 // ============================
 route.put('/:id', async (req, resp) => {
     try {
-        const peticionesadopcionActualizado = await PeticionAdopcion.findByIdAndUpdate(
+        const actualizado = await PeticionAdopcion.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true }
         );
 
-        if (!peticionesadopcionActualizado) {
-            return resp.status(404).json({ mensaje: "PeticionAdopcion no encontrado" });
+        if (!actualizado) {
+            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
         }
 
-        resp.status(200).json(peticionesadopcionActualizado);
+        resp.status(200).json(actualizado);
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
@@ -91,13 +89,13 @@ route.put('/:id', async (req, resp) => {
 // ============================
 route.delete('/:id', async (req, resp) => {
     try {
-        const peticionesadopcionEliminado = await PeticionAdopcion.findByIdAndDelete(req.params.id);
+        const eliminado = await PeticionAdopcion.findByIdAndDelete(req.params.id);
 
-        if (!peticionesadopcionEliminado) {
-            return resp.status(404).json({ mensaje: "Peticion de Adopcion no encontrado" });
+        if (!eliminado) {
+            return resp.status(404).json({ mensaje: "Petición de adopción no encontrada" });
         }
 
-        resp.status(200).json({ mensaje: "Peticion de Adopcion eliminado correctamente" });
+        resp.status(200).json({ mensaje: "Eliminado correctamente" });
     } catch (error) {
         resp.status(400).json({ mensaje: error.message });
     }
