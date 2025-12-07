@@ -46,7 +46,7 @@ async function cargarDatosFavoritas() {
 
 
 // ===============================
-// GUARDAR O EDITAR USUARIO
+// GUARDAR O EDITAR 
 // ===============================
 document.getElementById("favoritasFormulario").addEventListener("submit", async e => {
     e.preventDefault();

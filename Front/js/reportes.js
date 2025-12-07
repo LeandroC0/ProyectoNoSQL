@@ -16,10 +16,12 @@ async function cargarDatosReportes() {
         if (!res.ok) throw new Error(`Error al cargar reportes: ${res.status}`);
 
         const reportes = await res.json();
-        const tbody = document.getElementById("tablaParteMedico");
+        const tbody = document.getElementById("tablaReportes");
         tbody.innerHTML = "";
 
         reportes.forEach(r => {
+            //esta linea hay que probarla
+            const fecha = f.fecha ? (f.fecha.substring ? f.fecha.substring(0,10) : String(f.fecha)) : "";
             tbody.innerHTML += `
                 <tr>
                     <td>${r.idReporte || ""}</td>
@@ -31,6 +33,7 @@ async function cargarDatosReportes() {
                     <td>${r.evidenciaUrl || ""}</td>
                     <td>${r.estado || ""}</td>
                     <td>${r.fecha || ""}</td>
+                    <td>${fecha}</td>
                     <td>
                         <button class="btn btn-warning btn-sm" onclick="editarReportes('${r._id}')">Editar</button>
                         <button class="btn btn-danger btn-sm" onclick="eliminarReportes('${r._id}')">Eliminar</button>
@@ -41,7 +44,7 @@ async function cargarDatosReportes() {
 
     } catch (err) {
         console.error(err);
-        alert("Error cargando reportes.");
+        alert("Error cargando reportes. Revisa la consola para más detalles");
     }
 }
 
@@ -50,15 +53,15 @@ async function cargarDatosReportes() {
 // ===============================
 modalElement.addEventListener("show.bs.modal", () => {
     if (!idEditando) {
-        document.getElementById("tipoFormulario").reset();
+        document.getElementById("reportesFormulario").reset();
         document.querySelector(".modal-title").textContent = "Nuevo Reporte";
     }
 });
 
 // ===============================
-// GUARDAR / EDITAR
+// FUNCION: GUARDAR / EDITAR
 // ===============================
-document.getElementById("tipoFormulario").addEventListener("submit", async e => {
+document.getElementById("reportesFormulario").addEventListener("submit", async e => {
     e.preventDefault();
 
     const datos = {
@@ -82,6 +85,8 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
                 body: JSON.stringify(datos)
             });
             if (!res.ok) throw new Error("Error al crear reporte");
+            //if (!res.ok) throw new Error(`POST falló: ${res.status}`);
+
         } else {
             // Editar
             const res = await fetch(APIURL_REPORTES + idEditando, {
@@ -104,11 +109,13 @@ document.getElementById("tipoFormulario").addEventListener("submit", async e => 
 });
 
 // ===============================
-// EDITAR
+// FUNCION: EDITAR
 // ===============================
 async function editarReportes(_id) {
+    //console.log("ID recibido desde botón:", _id);
     try {
         const res = await fetch(APIURL_REPORTES + _id);
+
         if (!res.ok) throw new Error("Error al obtener reporte");
 
         const r = await res.json();
@@ -124,6 +131,16 @@ async function editarReportes(_id) {
         document.getElementById("estado").value = r.estado;
         document.getElementById("fecha").value = r.fecha;
 
+
+        // if (r.fecha) {
+        //     const fecha = r.fecha.substring
+        //         ? r.fecha.substring(0, 10)
+        //         : String(r.fecha);
+        //     document.getElementById("fecha").value = fecha;
+        // } else {
+        //     document.getElementById("fecha").value = "";
+        // }
+
         document.querySelector(".modal-title").textContent = "Editar Reporte";
 
         modal.show();
@@ -135,7 +152,7 @@ async function editarReportes(_id) {
 }
 
 // ===============================
-// ELIMINAR
+// FUNCION: ELIMINAR
 // ===============================
 async function eliminarReportes(id) {
     if (!confirm("¿Seguro que deseas eliminar este reporte?")) return;
